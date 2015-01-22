@@ -6,16 +6,31 @@ union Block
     uint64_t  _64[8];
     uint32_t  _32[16];
     uint8_t   _8[64];
+    Block() {}; // empty constructor
+    Block(uint8_t length) // initialization
+    {
+        memset(&this->_8[length + 1], 0, 55 - length);
+        this->_64[7] = length << 3;
+        this->_8[length] = 0x80;
+    };
 };
 union Hash
 {
     uint64_t _64[2];
     uint32_t _32[4];
     uint8_t  _8[16];
+    Hash ()
+    {
+        this->_32[0] = 0x67452301;
+        this->_32[1] = 0xefcdab89;
+        this->_32[2] = 0x98badcfe;
+        this->_32[3] = 0x10325476;
+    }
 };
+
 #define ROTATE_LEFT(x,n) ((x<<n)|(x>>(32-n)))
 
-#define F(x, y, z) (((x) & (y)) | ((~x) & (z)))
+#define F(x, y, z) ((x&y) | (~x&z))
 #define G(x, y, z) (((x) & (z)) | ((y) & (~z)))
 #define H(x, y, z) ((x) ^ (y) ^ (z))
 #define I(x, y, z) ((y) ^ ((x) | (~z)))
@@ -61,7 +76,7 @@ void init(union Hash *ha);
 #define S42 10
 #define S43 15
 #define S44 21
-
+uint8_t alph[] = {    "abcdefghijklmnopqrstuvwxyz"};
 uint32_t K[64] =
 {
     0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,

@@ -1,47 +1,75 @@
-#include <iostream>
-#include <string>
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 #include "cmd_line.h"
 #include "md5_globals.h"
+#include <omp.h>
 using namespace std;
 
-#define UNROLLED
+// #define UNROLLED
 
 int main(int argc, char *argv[])
 {
-    union Block in_block; memset(&in_block._8[1], 0, 63);
 
-    // Grab password input. 
-    char infile[20];
-    cmd_line(argc, argv, infile, NULL);
-    FILE *IN = fopen(infile, "rb"); // Read in file.
-    fread(in_block._8, 50, 1, IN);
 
-    // Determine password length and pad
-    register uint64_t length = strlen((char *)in_block._8);
-    in_block._8[length] = 0x80; 
-    memset(&in_block._8[length + 1], 0, 63 - length);
+    /*
+        // Grab password input.
+        char infile[20];
+        cmd_line(argc, argv, infile, NULL);
+        FILE *IN = fopen(infile, "rb"); // Read in file.
+        fread(in_block._8, 50, 1, IN);
 
-    // Write password length to md5. 
-    in_block._64[7] = length<<3;
+        // Determine password length and pad
+        register uint64_t length = strlen((char *)in_block._8);
+    */
 
-    // initialize hash values
-    union Hash hash;
-    init(&hash);
 
-    // Perform MD5 sum
-    F_MD5(&in_block, &hash);
 
-    // Print password. 
-    for (int i = 0; i < 16; i++)
-        printf("%02x", hash._8[i]);
-    printf("  %s\n", (char *)in_block._8);
+    // Write password length to md5.
+    register uint8_t length = 1;
+
+    // padding and length insertion is performed in constructor
+    union Block in_block (length); 
+    // in_block._64[7] = length << 3;
+    // in_block._8[length] = 0x80;
+
+    union Hash hash; // hashes are initialized in constructor
+
+    #pragma omp parallel for firstprivate(in_block,hash) num_threads(27)
+    /*
+        parallel required to make multiple threads
+
+        for looks at the following and parallelizes the for loop
+
+        firstprivate uses the initial values of the variable and 
+        makes it private.
+
+        num_threads determines the number of parallel instances. 
+        if no value is used here, it defaults to 5. this causes 
+        the first 5 hashes to be accurate, but the final hashes
+        are garbage (sharing resources). 
+    
+        We need to test every lowercase alpha from 1 to 10
+        0x0 then 0x61 to 0x7A
+    */
+    for (int i = 0; i < 26; ++i)
+    {
+        in_block._8[0] = alph[i];
+        F_MD5(&in_block, &hash);// Perform MD5 sum
+        #pragma omp critical(print)
+        /* printing needs to happen one thread at a time */
+        {
+            for (int i = 0; i < 16; i++)
+                printf("%02x", hash._8[i]);
+            printf("  %s\n", (char *)in_block._8);
+        }
+    }
+
     return 0;
 }
 
 void init(union Hash *ha)
+/* This function is now obselete */
 {
     ha->_32[0] = 0x67452301;
     ha->_32[1] = 0xefcdab89;
@@ -51,13 +79,32 @@ void init(union Hash *ha)
 
 void F_MD5(union Block *bl, union Hash *ha)
 {
-    uint32_t a, b, c, d;
-    a = ha->_32[0];
+    register uint32_t a, b, c, d;
+    a = ha->_32[0]; 
     b = ha->_32[1];
     c = ha->_32[2];
     d = ha->_32[3];
+    /*
+        optimization. We aren't ever hashing multiple times. 
+        This means that we can use constants here. Only assign
+        the hash value at the very end. 
+    */
+
+    /* 
+        Optimization. Instead of assign a=val; Just create a 
+        FF1 function that has the values hard coded into it. 
+    */
+
 
 #ifdef UNROLLED
+    /*
+        Optimization. Our passwords will only have 2 things change:
+            1. initial 10 characters + padding. bl->32[0-3]
+            2. final 64 bits. Really just bl->32[14]
+        Hardcode every other value as a 0. 
+    */ 
+
+
     /* Round 1 */
     FF (a, b, c, d, bl->_32[ 0], S11, 0xd76aa478); /* 1 */
     FF (d, a, b, c, bl->_32[ 1], S12, 0xe8c7b756); /* 2 */
@@ -106,7 +153,7 @@ void F_MD5(union Block *bl, union Hash *ha)
     HH (a, b, c, d, bl->_32[13], S31, 0x289b7ec6); /* 41 */
     HH (d, a, b, c, bl->_32[ 0], S32, 0xeaa127fa); /* 42 */
     HH (c, d, a, b, bl->_32[ 3], S33, 0xd4ef3085); /* 43 */
-    HH (b, c, d, a, bl->_32[ 6], S34,  0x4881d05); /* 44 */
+    HH (b, c, d, a, bl->_32[ 6], S34, 0x04881d05); /* 44 */
     HH (a, b, c, d, bl->_32[ 9], S31, 0xd9d4d039); /* 45 */
     HH (d, a, b, c, bl->_32[12], S32, 0xe6db99e5); /* 46 */
     HH (c, d, a, b, bl->_32[15], S33, 0x1fa27cf8); /* 47 */
@@ -158,13 +205,22 @@ void F_MD5(union Block *bl, union Hash *ha)
         temp = d;
         d = c;
         c = b;
+        // precompute (a+K[i]+bl->_32[g])
         b = b + ROTATE_LEFT(a + F + K[i] + bl->_32[g], S[i]);
         a = temp;
     }
 #endif
+
     ha->_32[0] += a;
     ha->_32[1] += b;
     ha->_32[2] += c;
     ha->_32[3] += d;
+
+    /* 
+        Optimization
+        Test if it matches the default hash. Then we can 
+        return a boolean value or just output and kill here
+    */
+
 }
 
