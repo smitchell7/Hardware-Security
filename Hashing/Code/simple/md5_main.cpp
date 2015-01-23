@@ -8,59 +8,36 @@
 #include <time.h>
 using namespace std;
 
-// password to crack
-union Hash enigma;
+//
+#define N D7
+#define _threads_ 16
 
-// 
+
+// password to crack
+
+
+#define passwd1 0x5d793fc5b00a2348
+#define passwd2 0xc3fb9ab59e5ca98a
 
 int main(int argc, char *argv[])
 {
-    // testing string zzzzz
-    enigma._8[0x0] = 0x95;
-    enigma._8[0x1] = 0xeb;
-    enigma._8[0x2] = 0xc3;
-    enigma._8[0x3] = 0xc7;
-    enigma._8[0x4] = 0xb3;
-    enigma._8[0x5] = 0xb9;
-    enigma._8[0x6] = 0xf1;
-    enigma._8[0x7] = 0xd2;
-    enigma._8[0x8] = 0xc4;
-    enigma._8[0x9] = 0x0f;
-    enigma._8[0xa] = 0xec;
-    enigma._8[0xb] = 0x14;
-    enigma._8[0xc] = 0x41;
-    enigma._8[0xd] = 0x5d;
-    enigma._8[0xe] = 0x3c;
-    enigma._8[0xf] = 0xb8;
+    transform_password(passwd1, passwd2);
 
-
-    /*
-        // Grab password input.
-        char infile[20];
-        cmd_line(argc, argv, infile, NULL);
-        FILE *IN = fopen(infile, "rb"); // Read in file.
-        fread(in_block._8, 50, 1, IN);
-
-        // Determine password length and pad
-        register uint64_t length = strlen((char *)in_block._8);
-    */
     union Block in_block;
     union Hash hash; // hashes are initialized in constructor
 
     // For loop parameters
-    uint64_t N = D6;
-    uint8_t _threads_ = 4;
     uint64_t i;
 
     clock_t start_time, final_time;
     start_time = clock();
-    
+
     /*
         parallel required to make multiple threads
 
         for looks at the following and parallelizes the for loop
-        
-        Discarded for loop and went for sections instead. 
+
+        Discarded for loop and went for sections instead.
 
         firstprivate uses the initial values of the variable and
         makes it private.
@@ -73,57 +50,164 @@ int main(int argc, char *argv[])
         We need to test every lowercase alpha from 1 to 10
         0x0 then 0x61 to 0x7A
     */
-    #pragma omp parallel sections num_threads(_threads_) firstprivate(in_block, hash)
+    #pragma omp parallel sections num_threads(_threads_) firstprivate(in_block) private(hash,i)
     {
         #pragma omp section
         {
-            for (i = 0; i < D6/4; i++)
+            for (i = 0; i < N / _threads_; i++)
             {
                 write_pass(&in_block, i);
                 init(&hash);
                 F_MD5(&in_block, &hash);// Perform MD5 sum
-                // #pragma omp critical(print)
-                /* printing needs to happen one thread at a time */
+            }
+        }
+        // for 1 thread, comment after here.
+        #pragma omp section
+        {
+            for (i = N / _threads_; i < 2 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        // for 2 threads, comment after here.
+        #pragma omp section
+        {
+            for (i = 2 * N / _threads_; i < 3 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
             }
         }
         #pragma omp section
         {
-            for (i = D6/4; i < 2*D6/4; i++)
+            for (i = 3 * N / _threads_; i < 4 * N / _threads_; i++)
             {
                 write_pass(&in_block, i);
                 init(&hash);
                 F_MD5(&in_block, &hash);// Perform MD5 sum
-                // #pragma omp critical(print)
-                /* printing needs to happen one thread at a time */
+            }
+        }
+        // for 4 threads, comment after here
+        
+        #pragma omp section
+        {
+            for (i = 4 * N / _threads_; i < 5 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
             }
         }
         #pragma omp section
         {
-            for (i = D6/2; i < 3*D6/4; i++)
+            for (i = 5 * N / _threads_; i < 6 * N / _threads_; i++)
             {
                 write_pass(&in_block, i);
                 init(&hash);
                 F_MD5(&in_block, &hash);// Perform MD5 sum
-                // #pragma omp critical(print)
-                /* printing needs to happen one thread at a time */
             }
         }
         #pragma omp section
         {
-            for (i = 3*D6/4; i < D6; i++)
+            for (i = 6 * N / _threads_; i < 7 * N / _threads_; i++)
             {
                 write_pass(&in_block, i);
                 init(&hash);
                 F_MD5(&in_block, &hash);// Perform MD5 sum
-                // #pragma omp critical(print)
-                /* printing needs to happen one thread at a time */
             }
         }
+        
+        #pragma omp section
+        {
+            for (i = 7 * N / _threads_; i < 8 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        // for 8 threads, comment after here
+        #pragma omp section
+        {
+            for (i = 8 * N / _threads_; i < 9 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 9 * N / _threads_; i < 10 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 10 * N / _threads_; i < 11 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 11 * N / _threads_; i < 12 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 12 * N / _threads_; i < 13 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 13 * N / _threads_; i < 14 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 14 * N / _threads_; i < 15 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 15 * N / _threads_; i < 16 * N / _threads_; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+            }
+        }
+        // 
     }
     final_time = clock();
 
-    double hashpersec = D6 / ((final_time - start_time) / 1000000);
-    printf("%lu hashes\n", D6);
+    double hashpersec = N / ((final_time - start_time) / 1000000);
+    printf("%lu hashes\n", N);
     printf("%f milliseconds\n", (int)(final_time - start_time) / 1000.0);
     printf("%f hashes/sec.\n", hashpersec);
     // printf("Speed: %.1f MiB/s\n", (double)N * 64 / (clock() - start_time) * CLOCKS_PER_SEC / 1048576.0);
@@ -135,18 +219,11 @@ void test_hash(union Hash *ha, union Hash *en, union Block *in_block)
     uint64_t cmp1, cmp2;
     cmp1 = ha->_64[0] ^ en->_64[0];
     cmp2 = ha->_64[1] ^ en->_64[1];
-
     if ((cmp1 | cmp2) == 0)
     {
         printf("Found the hash!\n");
         printf("  %s\n", (char *)in_block->_8);
     }
-    // else if ((in_block->_8[0] == 'z') && (in_block->_8[4] == 'z'))
-    // {
-    //     printf("Blah\n");
-    //     for (int i = 0; i < 16; i++)
-    //         printf("%02x%02x\n", ha->_8[i], en->_8[i]);
-    // }
 }
 
 
@@ -155,127 +232,127 @@ void write_pass(union Block *in_block, uint64_t i)
     int len;
     if (i < D1)
     {
-        in_block->_8[0] = alph[i];
-        in_block->_8[1] = 0x80;
+        in_block->_8[0] = alph(i);
         len = 1;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D2)
     {
-        in_block->_8[0] = alph[(i - D1) % E1];
-        in_block->_8[1] = alph[(i - D1) / E1];
-        in_block->_8[2] = 0x80;
+        in_block->_8[0] = alph((i - D1) % E1);
+        in_block->_8[1] = alph((i - D1) / E1);
         len = 2;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D3)
     {
-        in_block->_8[0] = alph[(i - D2) % E1];
-        in_block->_8[1] = alph[(((i - D2) / E1) % E1) ];
-        in_block->_8[2] = alph[(((i - D2) / E2) % E1)];
-        in_block->_8[3] = 0x80;
+        in_block->_8[0] = alph((i - D2) % E1);
+        in_block->_8[1] = alph((((i - D2) / E1) % E1) );
+        in_block->_8[2] = alph((((i - D2) / E2) % E1));
         len = 3;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D4)
     {
-        in_block->_8[0] = alph[(i - D3) % E1];
-        in_block->_8[1] = alph[(((i - D3) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D3) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D3) / E3) % E1)];
-        in_block->_8[4] = 0x80;
+        in_block->_8[0] = alph((i - D3) % E1);
+        in_block->_8[1] = alph((((i - D3) / E1) % E1));
+        in_block->_8[2] = alph((((i - D3) / E2) % E1));
+        in_block->_8[3] = alph((((i - D3) / E3) % E1));
         len = 4;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D5)
     {
-        in_block->_8[0] = alph[(i - D4) % E1];
-        in_block->_8[1] = alph[(((i - D4) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D4) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D4) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D4) / E4) % E1)];
-        in_block->_8[5] = 0x80;
+        in_block->_8[0] = alph((i - D4) % E1);
+        in_block->_8[1] = alph((((i - D4) / E1) % E1));
+        in_block->_8[2] = alph((((i - D4) / E2) % E1));
+        in_block->_8[3] = alph((((i - D4) / E3) % E1));
+        in_block->_8[4] = alph((((i - D4) / E4) % E1));
         len = 5;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D6)
     {
-        in_block->_8[0] = alph[(i - D5) % E1];
-        in_block->_8[1] = alph[(((i - D5) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D5) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D5) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D5) / E4) % E1)];
-        in_block->_8[5] = alph[(((i - D5) / E5) % E1)];
-        in_block->_8[6] = 0x80;
+        in_block->_8[0] = alph((i - D5) % E1);
+        in_block->_8[1] = alph((((i - D5) / E1) % E1));
+        in_block->_8[2] = alph((((i - D5) / E2) % E1));
+        in_block->_8[3] = alph((((i - D5) / E3) % E1));
+        in_block->_8[4] = alph((((i - D5) / E4) % E1));
+        in_block->_8[5] = alph((((i - D5) / E5) % E1));
         len = 6;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D7)
     {
-        in_block->_8[0] = alph[(i - D6) % E1];
-        in_block->_8[1] = alph[(((i - D6) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D6) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D6) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D6) / E4) % E1)];
-        in_block->_8[5] = alph[(((i - D6) / E5) % E1)];
-        in_block->_8[6] = alph[(((i - D6) / E6) % E1)];
-        in_block->_8[7] = 0x80;
+        in_block->_8[0] = alph((i - D6) % E1);
+        in_block->_8[1] = alph((((i - D6) / E1) % E1));
+        in_block->_8[2] = alph((((i - D6) / E2) % E1));
+        in_block->_8[3] = alph((((i - D6) / E3) % E1));
+        in_block->_8[4] = alph((((i - D6) / E4) % E1));
+        in_block->_8[5] = alph((((i - D6) / E5) % E1));
+        in_block->_8[6] = alph((((i - D6) / E6) % E1));
         len = 7;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D8)
     {
-        in_block->_8[0] = alph[(i - D7) % E1];
-        in_block->_8[1] = alph[(((i - D7) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D7) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D7) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D7) / E4) % E1)];
-        in_block->_8[5] = alph[(((i - D7) / E5) % E1)];
-        in_block->_8[6] = alph[(((i - D7) / E6) % E1)];
-        in_block->_8[7] = alph[(((i - D7) / E7) % E1)];
-        in_block->_8[8] = 0x80;
+        in_block->_8[0] = alph((i - D7) % E1);
+        in_block->_8[1] = alph((((i - D7) / E1) % E1));
+        in_block->_8[2] = alph((((i - D7) / E2) % E1));
+        in_block->_8[3] = alph((((i - D7) / E3) % E1));
+        in_block->_8[4] = alph((((i - D7) / E4) % E1));
+        in_block->_8[5] = alph((((i - D7) / E5) % E1));
+        in_block->_8[6] = alph((((i - D7) / E6) % E1));
+        in_block->_8[7] = alph((((i - D7) / E7) % E1));
         len = 8;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else if (i < D9)
     {
-        in_block->_8[0] = alph[(i - D8) % E1];
-        in_block->_8[1] = alph[(((i - D8) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D8) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D8) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D8) / E4) % E1)];
-        in_block->_8[5] = alph[(((i - D8) / E5) % E1)];
-        in_block->_8[6] = alph[(((i - D8) / E6) % E1)];
-        in_block->_8[7] = alph[(((i - D8) / E7) % E1)];
-        in_block->_8[8] = alph[(((i - D8) / E8) % E1)];
-        in_block->_8[9] = 0x80;
+        in_block->_8[0] = alph((i - D8) % E1);
+        in_block->_8[1] = alph((((i - D8) / E1) % E1));
+        in_block->_8[2] = alph((((i - D8) / E2) % E1));
+        in_block->_8[3] = alph((((i - D8) / E3) % E1));
+        in_block->_8[4] = alph((((i - D8) / E4) % E1));
+        in_block->_8[5] = alph((((i - D8) / E5) % E1));
+        in_block->_8[6] = alph((((i - D8) / E6) % E1));
+        in_block->_8[7] = alph((((i - D8) / E7) % E1));
+        in_block->_8[8] = alph((((i - D8) / E8) % E1));
         len = 9;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
     else
     {
-        in_block->_8[0] = alph[(i - D9) % E1];
-        in_block->_8[1] = alph[(((i - D9) / E1) % E1)];
-        in_block->_8[2] = alph[(((i - D9) / E2) % E1)];
-        in_block->_8[3] = alph[(((i - D9) / E3) % E1)];
-        in_block->_8[4] = alph[(((i - D9) / E4) % E1)];
-        in_block->_8[5] = alph[(((i - D9) / E5) % E1)];
-        in_block->_8[6] = alph[(((i - D9) / E6) % E1)];
-        in_block->_8[7] = alph[(((i - D9) / E7) % E1)];
-        in_block->_8[8] = alph[(((i - D9) / E8) % E1)];
-        in_block->_8[9] = alph[(((i - D9) / E9) % E1)];
-        in_block->_8[10] = 0x80;
+        in_block->_8[0] = alph((i - D9) % E1);
+        in_block->_8[1] = alph((((i - D9) / E1) % E1));
+        in_block->_8[2] = alph((((i - D9) / E2) % E1));
+        in_block->_8[3] = alph((((i - D9) / E3) % E1));
+        in_block->_8[4] = alph((((i - D9) / E4) % E1));
+        in_block->_8[5] = alph((((i - D9) / E5) % E1));
+        in_block->_8[6] = alph((((i - D9) / E6) % E1));
+        in_block->_8[7] = alph((((i - D9) / E7) % E1));
+        in_block->_8[8] = alph((((i - D9) / E8) % E1));
+        in_block->_8[9] = alph((((i - D9) / E9) % E1));
         len = 10;
-        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_8[len] = 0x80;
+        memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
     }
 }

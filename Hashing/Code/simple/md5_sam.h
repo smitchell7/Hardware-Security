@@ -1,14 +1,26 @@
 #ifndef _MD5_CONST_
 #define _MD5_CONST_
 
+
+/* 
+    Block was formerly the full 512-bit MD5. 
+    This was illogical, as a 10-byte password 
+    will generate a total of 11-bytes plus a 
+    1-byte length value. 
+
+    The 1-byte length value _32[3] is written as 
+    a 32 bit type for simplicity in writing. 
+
+    The block is now 128 bits. 
+*/
 union Block
 {
-    uint64_t  _64[8];
-    uint32_t  _32[16];
-    uint8_t   _8[64];
+    // uint64_t  _64[8];
+    uint32_t  _32[4];
+    uint8_t   _8[16];
     Block() // initialization
     {
-        memset(&this->_8[0], 0, 64);
+        // memset(&this->_8[0], 0, 64);
     };
 };
 union Hash
@@ -50,6 +62,11 @@ union Hash enigma;
 #define H(x, y, z) ((x) ^ (y) ^ (z))
 #define I(x, y, z) ((y) ^ ((x) | (~z)))
 
+#define FF1(a, b, c, d, x, s, ac) { \
+        (a) = HASH_BASE_A + (F ((HASH_BASE_B), (HASH_BASE_C), (HASH_BASE_D)) + (x) + (uint32_t)(ac)); \
+        (a) = ROTATE_LEFT ((a), (s)); \
+        (a) += (b); \
+    }
 #define FF(a, b, c, d, x, s, ac) { \
         (a) += F ((b), (c), (d)) + (x) + (uint32_t)(ac); \
         (a) = ROTATE_LEFT ((a), (s)); \
@@ -71,11 +88,13 @@ union Hash enigma;
         (a) += (b); \
     }
 
+// initial values for the hash. 
 #define HASH_BASE_A 0x67452301
 #define HASH_BASE_B 0xefcdab89
 #define HASH_BASE_C 0x98badcfe
 #define HASH_BASE_D 0x10325476
 
+// The rotate parameters
 #define S11 7
 #define S12 12
 #define S13 17
@@ -117,4 +136,12 @@ union Hash enigma;
 #define  D2 (uint64_t) 702
 #define  D1 (uint64_t) 26
 
+/*
+uint8_t alph[] =
+{
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+    'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
+    'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+};
+*/
 #endif
