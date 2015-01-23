@@ -4,12 +4,34 @@
 #include "cmd_line.h"
 #include "md5_globals.h"
 #include <omp.h>
+#include <math.h>
+#include <time.h>
 using namespace std;
 
-// #define UNROLLED
+// password to crack
+union Hash enigma;
+
+// 
 
 int main(int argc, char *argv[])
 {
+    // testing string zzzzz
+    enigma._8[0x0] = 0x95;
+    enigma._8[0x1] = 0xeb;
+    enigma._8[0x2] = 0xc3;
+    enigma._8[0x3] = 0xc7;
+    enigma._8[0x4] = 0xb3;
+    enigma._8[0x5] = 0xb9;
+    enigma._8[0x6] = 0xf1;
+    enigma._8[0x7] = 0xd2;
+    enigma._8[0x8] = 0xc4;
+    enigma._8[0x9] = 0x0f;
+    enigma._8[0xa] = 0xec;
+    enigma._8[0xb] = 0x14;
+    enigma._8[0xc] = 0x41;
+    enigma._8[0xd] = 0x5d;
+    enigma._8[0xe] = 0x3c;
+    enigma._8[0xf] = 0xb8;
 
 
     /*
@@ -22,87 +44,277 @@ int main(int argc, char *argv[])
         // Determine password length and pad
         register uint64_t length = strlen((char *)in_block._8);
     */
-
-
-
-    // Write password length to md5.
-    register uint8_t length = 1;
-
-    // padding and length insertion is performed in constructor
-    union Block in_block (length); 
-    // in_block._64[7] = length << 3;
-    // in_block._8[length] = 0x80;
-
+    union Block in_block;
     union Hash hash; // hashes are initialized in constructor
 
-    #pragma omp parallel for firstprivate(in_block,hash) num_threads(27)
+    // For loop parameters
+    uint64_t N = D6;
+    uint8_t _threads_ = 4;
+    uint64_t i;
+
+    clock_t start_time, final_time;
+    start_time = clock();
+    
     /*
         parallel required to make multiple threads
 
         for looks at the following and parallelizes the for loop
+        
+        Discarded for loop and went for sections instead. 
 
-        firstprivate uses the initial values of the variable and 
+        firstprivate uses the initial values of the variable and
         makes it private.
 
-        num_threads determines the number of parallel instances. 
-        if no value is used here, it defaults to 5. this causes 
+        num_threads determines the number of parallel instances.
+        if no value is used here, it defaults to 5. this causes
         the first 5 hashes to be accurate, but the final hashes
-        are garbage (sharing resources). 
-    
+        are garbage (sharing resources).
+
         We need to test every lowercase alpha from 1 to 10
         0x0 then 0x61 to 0x7A
     */
-    for (int i = 0; i < 26; ++i)
+    #pragma omp parallel sections num_threads(_threads_) firstprivate(in_block, hash)
     {
-        in_block._8[0] = alph[i];
-        F_MD5(&in_block, &hash);// Perform MD5 sum
-        #pragma omp critical(print)
-        /* printing needs to happen one thread at a time */
+        #pragma omp section
         {
-            for (int i = 0; i < 16; i++)
-                printf("%02x", hash._8[i]);
-            printf("  %s\n", (char *)in_block._8);
+            for (i = 0; i < D6/4; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+                // #pragma omp critical(print)
+                /* printing needs to happen one thread at a time */
+            }
+        }
+        #pragma omp section
+        {
+            for (i = D6/4; i < 2*D6/4; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+                // #pragma omp critical(print)
+                /* printing needs to happen one thread at a time */
+            }
+        }
+        #pragma omp section
+        {
+            for (i = D6/2; i < 3*D6/4; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+                // #pragma omp critical(print)
+                /* printing needs to happen one thread at a time */
+            }
+        }
+        #pragma omp section
+        {
+            for (i = 3*D6/4; i < D6; i++)
+            {
+                write_pass(&in_block, i);
+                init(&hash);
+                F_MD5(&in_block, &hash);// Perform MD5 sum
+                // #pragma omp critical(print)
+                /* printing needs to happen one thread at a time */
+            }
         }
     }
+    final_time = clock();
 
+    double hashpersec = D6 / ((final_time - start_time) / 1000000);
+    printf("%lu hashes\n", D6);
+    printf("%f milliseconds\n", (int)(final_time - start_time) / 1000.0);
+    printf("%f hashes/sec.\n", hashpersec);
+    // printf("Speed: %.1f MiB/s\n", (double)N * 64 / (clock() - start_time) * CLOCKS_PER_SEC / 1048576.0);
     return 0;
 }
+
+void test_hash(union Hash *ha, union Hash *en, union Block *in_block)
+{
+    uint64_t cmp1, cmp2;
+    cmp1 = ha->_64[0] ^ en->_64[0];
+    cmp2 = ha->_64[1] ^ en->_64[1];
+
+    if ((cmp1 | cmp2) == 0)
+    {
+        printf("Found the hash!\n");
+        printf("  %s\n", (char *)in_block->_8);
+    }
+    // else if ((in_block->_8[0] == 'z') && (in_block->_8[4] == 'z'))
+    // {
+    //     printf("Blah\n");
+    //     for (int i = 0; i < 16; i++)
+    //         printf("%02x%02x\n", ha->_8[i], en->_8[i]);
+    // }
+}
+
+
+void write_pass(union Block *in_block, uint64_t i)
+{
+    int len;
+    if (i < D1)
+    {
+        in_block->_8[0] = alph[i];
+        in_block->_8[1] = 0x80;
+        len = 1;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D2)
+    {
+        in_block->_8[0] = alph[(i - D1) % E1];
+        in_block->_8[1] = alph[(i - D1) / E1];
+        in_block->_8[2] = 0x80;
+        len = 2;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D3)
+    {
+        in_block->_8[0] = alph[(i - D2) % E1];
+        in_block->_8[1] = alph[(((i - D2) / E1) % E1) ];
+        in_block->_8[2] = alph[(((i - D2) / E2) % E1)];
+        in_block->_8[3] = 0x80;
+        len = 3;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D4)
+    {
+        in_block->_8[0] = alph[(i - D3) % E1];
+        in_block->_8[1] = alph[(((i - D3) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D3) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D3) / E3) % E1)];
+        in_block->_8[4] = 0x80;
+        len = 4;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D5)
+    {
+        in_block->_8[0] = alph[(i - D4) % E1];
+        in_block->_8[1] = alph[(((i - D4) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D4) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D4) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D4) / E4) % E1)];
+        in_block->_8[5] = 0x80;
+        len = 5;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D6)
+    {
+        in_block->_8[0] = alph[(i - D5) % E1];
+        in_block->_8[1] = alph[(((i - D5) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D5) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D5) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D5) / E4) % E1)];
+        in_block->_8[5] = alph[(((i - D5) / E5) % E1)];
+        in_block->_8[6] = 0x80;
+        len = 6;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D7)
+    {
+        in_block->_8[0] = alph[(i - D6) % E1];
+        in_block->_8[1] = alph[(((i - D6) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D6) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D6) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D6) / E4) % E1)];
+        in_block->_8[5] = alph[(((i - D6) / E5) % E1)];
+        in_block->_8[6] = alph[(((i - D6) / E6) % E1)];
+        in_block->_8[7] = 0x80;
+        len = 7;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D8)
+    {
+        in_block->_8[0] = alph[(i - D7) % E1];
+        in_block->_8[1] = alph[(((i - D7) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D7) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D7) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D7) / E4) % E1)];
+        in_block->_8[5] = alph[(((i - D7) / E5) % E1)];
+        in_block->_8[6] = alph[(((i - D7) / E6) % E1)];
+        in_block->_8[7] = alph[(((i - D7) / E7) % E1)];
+        in_block->_8[8] = 0x80;
+        len = 8;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else if (i < D9)
+    {
+        in_block->_8[0] = alph[(i - D8) % E1];
+        in_block->_8[1] = alph[(((i - D8) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D8) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D8) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D8) / E4) % E1)];
+        in_block->_8[5] = alph[(((i - D8) / E5) % E1)];
+        in_block->_8[6] = alph[(((i - D8) / E6) % E1)];
+        in_block->_8[7] = alph[(((i - D8) / E7) % E1)];
+        in_block->_8[8] = alph[(((i - D8) / E8) % E1)];
+        in_block->_8[9] = 0x80;
+        len = 9;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+    else
+    {
+        in_block->_8[0] = alph[(i - D9) % E1];
+        in_block->_8[1] = alph[(((i - D9) / E1) % E1)];
+        in_block->_8[2] = alph[(((i - D9) / E2) % E1)];
+        in_block->_8[3] = alph[(((i - D9) / E3) % E1)];
+        in_block->_8[4] = alph[(((i - D9) / E4) % E1)];
+        in_block->_8[5] = alph[(((i - D9) / E5) % E1)];
+        in_block->_8[6] = alph[(((i - D9) / E6) % E1)];
+        in_block->_8[7] = alph[(((i - D9) / E7) % E1)];
+        in_block->_8[8] = alph[(((i - D9) / E8) % E1)];
+        in_block->_8[9] = alph[(((i - D9) / E9) % E1)];
+        in_block->_8[10] = 0x80;
+        len = 10;
+        memset(&in_block->_8[len + 1], 0, 56 - len);
+        in_block->_64[7] = len * 8;
+    }
+}
+
 
 void init(union Hash *ha)
 /* This function is now obselete */
 {
-    ha->_32[0] = 0x67452301;
-    ha->_32[1] = 0xefcdab89;
-    ha->_32[2] = 0x98badcfe;
-    ha->_32[3] = 0x10325476;
+    ha->_32[0] = HASH_BASE_A;
+    ha->_32[1] = HASH_BASE_B;
+    ha->_32[2] = HASH_BASE_C;
+    ha->_32[3] = HASH_BASE_D;
 }
 
 void F_MD5(union Block *bl, union Hash *ha)
 {
     register uint32_t a, b, c, d;
-    a = ha->_32[0]; 
+    a = ha->_32[0];
     b = ha->_32[1];
     c = ha->_32[2];
     d = ha->_32[3];
     /*
-        optimization. We aren't ever hashing multiple times. 
+        optimization. We aren't ever hashing multiple times.
         This means that we can use constants here. Only assign
-        the hash value at the very end. 
+        the hash value at the very end.
     */
 
-    /* 
-        Optimization. Instead of assign a=val; Just create a 
-        FF1 function that has the values hard coded into it. 
+    /*
+        Optimization. Instead of assign a=val; Just create a
+        FF1 function that has the values hard coded into it.
     */
 
 
-#ifdef UNROLLED
     /*
         Optimization. Our passwords will only have 2 things change:
             1. initial 10 characters + padding. bl->32[0-3]
             2. final 64 bits. Really just bl->32[14]
-        Hardcode every other value as a 0. 
-    */ 
+        Hardcode every other value as a 0.
+    */
 
 
     /* Round 1 */
@@ -176,49 +388,25 @@ void F_MD5(union Block *bl, union Hash *ha)
     II (d, a, b, c, bl->_32[11], S42, 0xbd3af235); /* 62 */
     II (c, d, a, b, bl->_32[ 2], S43, 0x2ad7d2bb); /* 63 */
     II (b, c, d, a, bl->_32[ 9], S44, 0xeb86d391); /* 64 */
-#endif
-
-#ifndef UNROLLED
-    uint32_t temp, F, g;
-    for (uint32_t i = 0; i < 64; i++)
-    {
-        if (i < 16)
-        {
-            F = (b & c) | (~b & d);
-            g = i;
-        }
-        else if (i < 32)
-        {
-            F = (b & d) | (c & ~d);
-            g = (5 * i + 1) % 16;
-        }
-        else if (i < 48)
-        {
-            F = b ^ c ^ d;
-            g = (3 * i + 5) % 16;
-        }
-        else
-        {
-            F = c ^ (b | ~d);
-            g = (7 * i) % 16;
-        }
-        temp = d;
-        d = c;
-        c = b;
-        // precompute (a+K[i]+bl->_32[g])
-        b = b + ROTATE_LEFT(a + F + K[i] + bl->_32[g], S[i]);
-        a = temp;
-    }
-#endif
 
     ha->_32[0] += a;
     ha->_32[1] += b;
     ha->_32[2] += c;
     ha->_32[3] += d;
 
-    /* 
+    uint64_t cmp1, cmp2;
+    cmp1 = ha->_64[0] ^ enigma._64[0];
+    cmp2 = ha->_64[1] ^ enigma._64[1];
+
+    if ((cmp1 | cmp2) == 0)
+    {
+        printf("Found the hash!\n");
+        printf("  %s\n", (char *)bl->_8);
+    }
+
+    /*
         Optimization
-        Test if it matches the default hash. Then we can 
+        Test if it matches the default hash. Then we can
         return a boolean value or just output and kill here
     */
 
