@@ -9,14 +9,22 @@
 using namespace std;
 
 //
-#define N D7
+#define N E7
 #define _threads_ 16
-
+#define LEN7
 
 // password to crack
+// 'aaaaaaa'
+// #define passwd1 0x5d793fc5b00a2348
+// #define passwd2 0xc3fb9ab59e5ca98a
 
-#define passwd1 0x4124bc0a9335c27f
-#define passwd2 0x086f24ba207a4912
+// 'zzzzzzz'
+#define passwd1 0xf0e8fb430bbdde6a
+#define passwd2 0xe9c879a518fd895f
+
+
+
+
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +35,8 @@ int main(int argc, char *argv[])
 
     // For loop parameters
     uint64_t i;
+
+
 
     /*
         parallel required to make multiple threads
@@ -43,140 +53,224 @@ int main(int argc, char *argv[])
 
         The N macro determines the simulation length.
     */
-    #pragma omp parallel sections num_threads(_threads_) firstprivate(in_block) private(hash,i)
+    #pragma omp parallel sections num_threads(_threads_) private(in_block,hash,i)
     {
+        /* Optimization.
+            Hard code in the values in the loop. Also choose the
+            number of times we unwrap wisely (see write_pass)
+        */
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 0; i < N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         // for 1 thread, comment after here.
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = N / _threads_; i < 2 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n\n", in_block._8);
             }
         }
         // for 2 threads, comment after here.
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 2 * N / _threads_; i < 3 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 3 * N / _threads_; i < 4 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         // for 4 threads, comment after here
 
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 4 * N / _threads_; i < 5 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 5 * N / _threads_; i < 6 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 6 * N / _threads_; i < 7 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
 
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 7 * N / _threads_; i < 8 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         // for 8 threads, comment after here
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 8 * N / _threads_; i < 9 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 9 * N / _threads_; i < 10 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 10 * N / _threads_; i < 11 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 11 * N / _threads_; i < 12 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 12 * N / _threads_; i < 13 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 13 * N / _threads_; i < 14 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 14 * N / _threads_; i < 15 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         #pragma omp section
         {
+            uint64_t tmp = 0;
             for (i = 15 * N / _threads_; i < 16 * N / _threads_; i++)
             {
-                write_pass(&in_block, i);
-                F_MD5(&in_block, &hash);// Perform MD5 sum
+                write_pass(&in_block,   i); tmp += F_MD5(&in_block, &hash, i); // Perform MD5 sum
+            }
+            if (tmp != 0)
+            {
+                write_pass(&in_block, tmp);
+                printf("found. %s\n", in_block._8);
             }
         }
         //
@@ -186,7 +280,44 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+/*
+    Optimization.
+    Use first block every time.
+    456976 unique length 4 passwords.
+    Each one will be used 17576 times. (vectorised 4394)
+    Make each loop 17576 long. The first
+    line of the loop calculates the value and stores it.
+    The next 17575 iterations skip that one.
 
+    This can also be used for the write_pass function.
+    The only values that need to be updated are [4-6]
+*/
+#ifdef LEN7
+void write_pass(union Block *in_block, uint64_t i)
+{
+    in_block->_8[6] = alph(i % E1);
+    i /= E1;
+    in_block->_8[5] = alph(i % E1);
+    i /= E1;
+    in_block->_8[4] = alph(i % E1);
+    i /= E1;
+
+    // these are updated rarely.
+    in_block->_8[7] = 0x80;
+    in_block->_8[3] = alph(i % E1);
+    i /= E1;
+    in_block->_8[2] = alph(i % E1);
+    i /= E1;
+    in_block->_8[1] = alph(i % E1);
+    i /= E1;
+    in_block->_8[0] = alph(i % E1);
+    i /= E1;
+    // memset(&in_block->_8[8], 0, 4); optimized out.
+    // in_block->_32[3] = 56; optimized out.
+
+}
+#endif
+#ifndef LEN7
 /*
     Password generator.
     Accepts a block and iterator value,
@@ -198,24 +329,6 @@ int main(int argc, char *argv[])
 
     Is there a better way to evenly generate these passwords?
 */
-#ifdef LEN7
-void write_pass7(union Block *in_block, uint64_t i)
-{
-    register uint64_t temp = i-D6;
-    in_block->_8[0] = alph((i - D6) % E1);
-    in_block->_8[1] = alph((((i - D6) / E1) % E1));
-    in_block->_8[2] = alph((((i - D6) / E2) % E1));
-    in_block->_8[3] = alph((((i - D6) / E3) % E1));
-    in_block->_8[4] = alph((((i - D6) / E4) % E1));
-    in_block->_8[5] = alph((((i - D6) / E5) % E1));
-    in_block->_8[6] = alph((((i - D6) / E6) % E1));
-    in_block->_8[7] = 0x80;
-    // memset(&in_block->_8[8], 0, 4); optimized out. 
-    // in_block->_32[3] = 56; optimized out. 
-
-}
-#endif
-#ifndef LEN7
 void write_pass(union Block *in_block, uint64_t i)
 {
     int len;
@@ -390,7 +503,7 @@ void write_pass(union Block *in_block, uint64_t i)
     }
 }
 #endif
-void F_MD5(union Block *bl, union Hash *ha)
+uint64_t F_MD5(union Block *bl, union Hash *ha, uint64_t i)
 {
     register uint32_t a, b, c, d;
 
@@ -465,7 +578,7 @@ void F_MD5(union Block *bl, union Hash *ha)
         GG (c, d, a, b,           0, S23, 0xd8a1e681); /* 23 */
         GG (b, c, d, a,           0, S24, 0xe7d3fbc8); /* 24 */
         GG (a, b, c, d,           0, S21, 0x21e1cde6); /* 25 */
-#ifndef LEN7        
+#ifndef LEN7
         GG (d, a, b, c, bl->_32[ 3], S22, 0xc33707d6); /* 26 */
 #endif
 #ifdef LEN7
@@ -488,7 +601,7 @@ void F_MD5(union Block *bl, union Hash *ha)
         HH (a, b, c, d,           0, S31, 0xfffa3942); /* 33 */
         HH (d, a, b, c,           0, S32, 0x8771f681); /* 34 */
         HH (c, d, a, b,           0, S33, 0x6d9d6122); /* 35 */
-#ifndef LEN7        
+#ifndef LEN7
         HH (b, c, d, a, bl->_32[ 3], S34, 0xfde5380c); /* 36 */
 #endif
 #ifdef LEN7
@@ -516,7 +629,7 @@ void F_MD5(union Block *bl, union Hash *ha)
         /* Round 4 */
         II (a, b, c, d, bl->_32[ 0], S41, 0xf4292244); /* 49 */
         II (d, a, b, c,           0, S42, 0x432aff97); /* 50 */
-#ifndef LEN7        
+#ifndef LEN7
         II (c, d, a, b, bl->_32[ 3], S43, 0xab9423a7); /* 51 */
 #endif
 #ifdef LEN7
@@ -549,23 +662,44 @@ void F_MD5(union Block *bl, union Hash *ha)
 
 
     /*
-        Optimization with testing done by Trevor.
+        Optimization. Use the return-style sequence
+        in order to save 2.6%. 2:30 compared to 2:26.
+        uint64_t cmp1, cmp2;
+        cmp1 = ha->_64[0] ^ enigma._64[0];
+        cmp2 = ha->_64[1] ^ enigma._64[1];
+
+        if ((cmp1 | cmp2) == 0)
+        {
+            printf("Found the hash!\n");
+            printf("  %s\n", (char *)bl->_8);
+        }
+
+
+        Equivalent to 
+        if( found )
+            return i;
+        else return 0;
+        misses if the password is 'aaaaaaa'
     */
-    uint64_t cmp1, cmp2;
-    cmp1 = ha->_64[0] ^ enigma._64[0];
-    cmp2 = ha->_64[1] ^ enigma._64[1];
 
-    if ((cmp1 | cmp2) == 0)
-    {
-        printf("Found the hash!\n");
-        printf("  %s\n", (char *)bl->_8);
-    }
-
+    return i*((
+                (ha->_32[0] ^ enigma._32[0]) |
+                (ha->_32[1] ^ enigma._32[1]) |
+                (ha->_32[2] ^ enigma._32[2]) |
+                (ha->_32[3] ^ enigma._32[3])
+            ) == 0);
     /*
         Optimization
         Test if it matches the default hash. Then we can
         return a boolean value or just output and kill here
     */
+    /*
+        Optimization.
+        Instead of testing, try the following sequence.
+        tmp += i* ((ha^enigma)==0);
+        return tmp;
 
+        This removes all jumps, and gives an index at the end.
+    */
 }
 

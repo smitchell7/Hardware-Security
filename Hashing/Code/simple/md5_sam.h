@@ -30,7 +30,7 @@ union Hash
     uint8_t  _8[16];
     Hash (){};
 };
-void F_MD5(union Block *bl, union Hash *ha);
+uint64_t F_MD5(union Block *bl, union Hash *ha, uint64_t i);
 void init(union Hash *ha);
 void write_pass(union Block *bl, uint64_t i);
 void test_hash(union Hash *ha, union Hash *en, union Block *in_block);
