@@ -31,8 +31,10 @@ union Hash
     Hash (){};
 };
 uint64_t F_MD5(union Block *bl, union Hash *ha, uint64_t i);
+uint64_t G_MD5(union Block *bl, union Hash *ha, uint64_t i);
 void init(union Hash *ha);
 void write_pass(union Block *bl, uint64_t i);
+void write_first_pass(union Block *bl, uint64_t i);
 void test_hash(union Hash *ha, union Hash *en, union Block *in_block);
 
 union Hash enigma;
@@ -63,6 +65,11 @@ union Hash enigma;
 #define I(x, y, z) ((y) ^ ((x) | (~z)))
 
 #define FF1(a, b, c, d, x, s, ac) { \
+        (a) = HASH_BASE_A + (F ((HASH_BASE_B), (HASH_BASE_C), (HASH_BASE_D)) + (x) + (uint32_t)(ac)); \
+        (a) = ROTATE_LEFT ((a), (s)); \
+        (a) += (b); \
+    }
+#define FF2(a, b, c, d, x, s, ac) { \
         (a) = HASH_BASE_A + (F ((HASH_BASE_B), (HASH_BASE_C), (HASH_BASE_D)) + (x) + (uint32_t)(ac)); \
         (a) = ROTATE_LEFT ((a), (s)); \
         (a) += (b); \

@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{fancyhdr} % allows header manipulation
+\usepackage{geometry} % to change the page dimensions
+\geometry{letterpaper} % 
+\geometry{margin=0.75in} % 
+\usepackage{graphicx} % for image insertion
+\usepackage{float} % image placement
+\usepackage{listings} % Required for code 
+\usepackage[usenames,dvipsnames]{color} % color!
+\usepackage{multicol}
+\usepackage{lastpage}
+\setlength\parindent{0pt} % Removes all indentation
+\usepackage{sectsty}
+\sectionfont{\normalsize \bf}
+\subsectionfont{\normalsize \bf}
+
+\definecolor{light-gray}{gray}{0.95}
+\definecolor{dark-gray}{gray}{0.15}
+\usepackage{courier} % Uncomment for Times New Roman 
+\usepackage{hyperref}
+%\renewcommand{\theenumi}{\Alph{enumi}}
+%\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+%\renewcommand{\thesection}{\thesection}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+
+
+\lstset{language=Matlab,basicstyle=\ttfamily,breaklines,   numbers=left, numberstyle=\tiny, stepnumber=5, numbersep=1pt, 
+%keywordstyle=\color{blue}\ttfamily,  stringstyle=\color{red}\ttfamily,
+backgroundcolor=\color{light-gray},
+% commentstyle=\color{OliveGreen}\ttfamily, morecomment=[l][\color{magenta}]{\#}
+}
+\lstset{language=C,basicstyle=\ttfamily,breaklines,   numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt, keywordstyle=\color{blue}\ttfamily,  stringstyle=\color{red}\ttfamily,backgroundcolor=\color{light-gray}, commentstyle=\color{OliveGreen}\ttfamily, morecomment=[l][\color{magenta}]{\#}}
+
+
+% \lhead{\today}
+% \chead{ECE 3640  --  Doppler Lab}
+% \rhead{Mitchell, Samuel \thepage / \pageref{LastPage}} 
+% \cfoot{}
+
+% \begin{document}
+% \title{}
+% \author{Sam Mitchell}
+% %\maketitle
+
+% \section{}
+
+% %\begin{figure}[H]
+% %\centering
+% %\includegraphics[width=4in]{p1/p2.png}
+% %\caption{A time domain plot of the file}
+% %\end{figure}
+
+% %\lstinputlisting[language=C]{dop.h}
+
+
+% \end{document}
