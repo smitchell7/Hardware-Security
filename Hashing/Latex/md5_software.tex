@@ -1,2 +1,48 @@
-\section{Software}
-\subsection{Optimizations}
+% \section{Software Implementation}
+	Overview and objectives
+	MD5 is a computationally simple operation with minimal execution time. An inefficient implementation of MD5 is sufficient for everyday hashing needs, however password recovery applications require an efficient method to test large numbers of passwords. 
+
+	Parallel computing is an effective method to quickly analyze large sets of data. OpenMP is one parallel computing implementation which has been in use for C/C++ since 1998 \cite{openmp}. The authors utilized this parallel computing method with 16 threads, separating the set of passwords into 16 equal portions. 
+
+	Further optimization methods were selected or developed. These methods are: Single Instruction Multiple Data, loop unrolling, string precalculation, and first block precalculation. 
+
+	\subsection{SIMD}
+		Single Instruction Multiple Data (SIMD) is a functionality of standard processors which allows a single operation to operate on multiple integers in parallel \cite{simd}. This is effective due to the current register size (128-bits) of modern cpus. 
+
+		The MD5 hashing algorithm operations are performed on 32-bit integers. This allows for four (4) simultaneous operations on each core, which led us to believe that the algorithm would see a 300\% speedup. 
+
+		Our implementation of SIMD initially slowed down the hash --- a 37\% decrease in performance when compared to the nominal case. Reasons for this are not confirmed, however we theorize that the stack operations resulting from context switches caused this slow-down. 
+
+		In the following optimizations, the SIMD implementation is shown to outperform the Single Instruction Single Data case. 
+
+	\subsection{Loop unrolling}
+		Loop unrolling is an elementary optimization technique utilized to remove the overhead from loop operations \cite{Dongarra1979}. The loop was unrolled to a specific length to assist in string precalculation. In the nominal (no SIMD) case, loop unrolling to 26 iterations gave slight improvements (2\%). In the SIMD case, loop unrolling to 169 iterations resulted in a substantial speed increase. Nominal to SIMD unrolled resulted in a 103\% speedup, while SIMD to SIMD unrolled resulted in a 220\% speedup.  
+	\subsection{String precalculation}
+		One significant delay in MD5 calculation is string creation. We strategically combined loop unrolling with precalculation methods. The loop was originally unrolled to have 26 iterations (SIMD had $\frac{26*26}{4}=169$ iterations), which allowed precalculation of the first characters of the string. 
+
+		MD5 is calculated on 16 32-bit numbers, and on a length seven (7) string there are 13 32-bit numbers that are always 0. The last 32-bit number is 7*8=56. This is consistent on every length seven (7) string, so these values were directly coded into the MD5 hash.
+
+		When inserted to the already unrolled system, string precalculation resulted in a 36\% speedup in the SIMD case. 
+
+	\subsection{First block precalculation}
+		The first block of the MD5 calculation can be precomputed due to the repetitive nature of the password cracker --- the first block only accepts the first four characters of the password. The first block was computed in function G\_MD5() and stored for the successive 168 hashes. While this saved operations, the anticipated speedup was a maximum of $\le\frac{1}{64}$ or 1.5\% due to the nature of MD5. Testing this optimization revealed a 3\% speedup, which was unexpected and as of yet unexplained.  
+
+	\subsection{Results}
+		As expected, the combination of SIMD and loop unrolling was the optimization with the greatest speedup. When combined, these methods result in fewer comparisons and branches. 
+
+		String precalculation was an unexpectedly effective optimization. This was not an improvement in MD5 calculation efficiency, but a removal of excessive overhead operations.  
+
+		Benchmarking was performed on all seven (7) character combinations of a lowercase, alphabetic character set. Comparisons were made between optimizations as well as best-case to the nominal OpenMP optimization. The comparisons of each optimization are noted in the respective section. The best-case system is compared to the nominal using the -O1, -O2, -O3, and -fomit-frame-pointer compiler flags. Results are found in Table \ref{tab:results}.
+
+		Compiler flags are very important in optimizing execution time of a process. The 690\% speedup between md5pc\_O0 and md5pc\_O3 hash rates shows that performing operations in an out-of-order manner is often more effective than readable code. 
+
+	\subsection{Password recovery}
+		A hash of an unknown password was provided. In order to ensure that no passwords would be missed, password testing was performed in discrete groups: (1) 1-6 character strings, (2) 7 character strings, (3) 8 character strings, and so on. These tests were performed using the same processor used in the benchmarking tests in Table \ref{tab:results}. 
+
+		The 1-6 character strings were tested without optimizations because it was executed in an acceptably short time. No results were found. 5.91 second execution time. 
+
+		The 7 character string was tested using the program used in benchmarking. No results were found. 51.15 execution time.
+
+		The 8 character string was tested using a modified version of the benchmarking program. The resulting string "tyygsuef" was found in 6:18.85 (minutes:seconds). 
+
+		In terms of total execution time, the testing was completed in 7:15.91. This does not represent testing every string of lengths 1-8, because the program ceased executing once the password was found. 

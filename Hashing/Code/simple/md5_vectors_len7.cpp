@@ -17,12 +17,9 @@ using namespace std;
 
 // password to crack
 
-
-#define passwd1 0xaebc994aa5b00a03
-#define passwd2 0x08c9fd257bf63ebd
 // zzzzzzz
-// #define passwd1 0xf0e8fb430bbdde6a
-// #define passwd2 0xe9c879a518fd895f
+#define passwd1 0xf0e8fb430bbdde6a
+#define passwd2 0xe9c879a518fd895f
 
 
 
@@ -2978,7 +2975,7 @@ void write_pass(union Block *in_block0, union Block *in_block1, union Block *in_
         in_block3->_8[0] = alph((i / E6) % E1);
         in_block3->_8[7] = 0x80;*/
 }
-void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
+uint64_t F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
 {
     vec4 a_vec, b_vec, c_vec, d_vec;
     a_vec = (vec4)
@@ -3353,7 +3350,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
 }
 
 
-void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
+uint64_t G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
 {
     vec4 a_vec, b_vec, c_vec, d_vec;
     a_vec = (vec4)

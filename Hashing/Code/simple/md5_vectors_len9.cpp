@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "md5_globals_vectors.h"
 #include <omp.h>
-
+#include <stdlib.h>
 
 #include <iostream>
 
@@ -11,15 +11,18 @@
 using namespace std;
 
 //#define N D7
-#define N E7
-#define _threads_ 16
+#define N E9
+#define _threads_ 32
 
 
 // password to crack
-
-
 #define passwd1 0xaebc994aa5b00a03
 #define passwd2 0x08c9fd257bf63ebd
+// #define passwd1 0x51d0e49f48069cd3
+// #define passwd2 0xc3994d7a0f8e2605
+
+
+
 // zzzzzzz
 // #define passwd1 0xf0e8fb430bbdde6a
 // #define passwd2 0xe9c879a518fd895f
@@ -29,7 +32,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 
-    printf("Seeking MD5 Password. \n\nTesting all length 7 passwords. \n");
+    printf("Seeking MD5 Password. \n\nTesting all length 9 passwords. \n");
     transform_password(passwd1, passwd2);
 
     union Block bl0, bl1, bl2, bl3;
@@ -64,6 +67,8 @@ int main(int argc, char *argv[])
             for (i = 0; i < N / _threads_; i += 676)
             {
                 write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                if (i == 0)
+                    printf("%.9s\n", bl1._8 );
                 write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
                 write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
                 write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
@@ -2882,6 +2887,2831 @@ int main(int argc, char *argv[])
                 write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
             }
         }
+
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 16; i < 17 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        // for 1 thread, comment after here.
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 17 * N / _threads_; i < 18 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+
+            }
+        }
+        // for 2 threads, comment after here.
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 18 * N / _threads_; i < 19 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 19 * N / _threads_; i < 20 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        // for 4 threads, comment after here
+
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 20 * N / _threads_; i < 21 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 21 * N / _threads_; i < 22 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 22 * N / _threads_; i < 23 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 23 * N / _threads_; i < 24 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        // for 8 threads, comment after here
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 24 * N / _threads_; i < 25 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 25 * N / _threads_; i < 26 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 26 * N / _threads_; i < 27 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 27 * N / _threads_; i < 28 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 28 * N / _threads_; i < 29 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 29 * N / _threads_; i < 30 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 30 * N / _threads_; i < 31 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
+        #pragma omp section
+        {
+            uint64_t tmp = 0;
+            for (i = 31 * N / _threads_; i < 32 * N / _threads_; i += 676)
+            {
+                write_first_pass(&bl0, &bl1, &bl2, &bl3, i); G_MD5(&bl0, &bl1, &bl2, &bl3, i );
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 4); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 4);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 8); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 8);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 12); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 12);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 16); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 16);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 20); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 20);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 24); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 24);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 28); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 28);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 32); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 32);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 36); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 36);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 40); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 40);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 44); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 44);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 48); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 48);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 52); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 52);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 56); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 56);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 60); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 60);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 64); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 64);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 68); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 68);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 72); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 72);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 76); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 76);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 80); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 80);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 84); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 84);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 88); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 88);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 92); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 92);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 96); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 96);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 100); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 100);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 104); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 104);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 108); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 108);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 112); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 112);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 116); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 116);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 120); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 120);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 124); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 124);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 128); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 128);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 132); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 132);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 136); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 136);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 140); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 140);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 144); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 144);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 148); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 148);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 152); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 152);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 156); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 156);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 160); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 160);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 164); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 164);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 168); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 168);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 172); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 172);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 176); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 176);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 180); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 180);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 184); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 184);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 188); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 188);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 192); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 192);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 196); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 196);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 200); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 200);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 204); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 204);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 208); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 208);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 212); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 212);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 216); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 216);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 220); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 220);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 224); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 224);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 228); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 228);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 232); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 232);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 236); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 236);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 240); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 240);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 244); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 244);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 248); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 248);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 252); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 252);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 256); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 256);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 260); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 260);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 264); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 264);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 268); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 268);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 272); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 272);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 276); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 276);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 280); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 280);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 284); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 284);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 288); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 288);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 292); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 292);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 296); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 296);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 300); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 300);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 304); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 304);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 308); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 308);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 312); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 312);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 316); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 316);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 320); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 320);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 324); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 324);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 328); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 328);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 332); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 332);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 336); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 336);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 340); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 340);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 344); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 344);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 348); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 348);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 352); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 352);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 356); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 356);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 360); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 360);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 364); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 364);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 368); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 368);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 372); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 372);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 376); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 376);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 380); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 380);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 384); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 384);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 388); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 388);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 392); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 392);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 396); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 396);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 400); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 400);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 404); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 404);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 408); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 408);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 412); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 412);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 416); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 416);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 420); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 420);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 424); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 424);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 428); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 428);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 432); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 432);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 436); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 436);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 440); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 440);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 444); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 444);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 448); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 448);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 452); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 452);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 456); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 456);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 460); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 460);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 464); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 464);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 468); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 468);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 472); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 472);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 476); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 476);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 480); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 480);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 484); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 484);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 488); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 488);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 492); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 492);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 496); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 496);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 500); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 500);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 504); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 504);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 508); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 508);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 512); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 512);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 516); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 516);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 520); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 520);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 524); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 524);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 528); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 528);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 532); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 532);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 536); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 536);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 540); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 540);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 544); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 544);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 548); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 548);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 552); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 552);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 556); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 556);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 560); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 560);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 564); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 564);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 568); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 568);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 572); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 572);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 576); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 576);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 580); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 580);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 584); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 584);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 588); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 588);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 592); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 592);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 596); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 596);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 600); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 600);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 604); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 604);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 608); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 608);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 612); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 612);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 616); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 616);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 620); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 620);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 624); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 624);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 628); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 628);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 632); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 632);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 636); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 636);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 640); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 640);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 644); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 644);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 648); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 648);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 652); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 652);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 656); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 656);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 660); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 660);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 664); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 664);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 668); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 668);
+                write_pass(&bl0, &bl1, &bl2, &bl3, i + 672); F_MD5(&bl0, &bl1, &bl2, &bl3, i + 672);
+            }
+        }
     }
 
     printf("\n%lu hashes were calculated. \n\n", N);
@@ -2890,53 +5720,61 @@ int main(int argc, char *argv[])
 
 void write_first_pass(union Block *in_block0, union Block *in_block1, union Block *in_block2, union Block *in_block3, uint64_t i)
 {
-    in_block0->_8[6] = alph(i % E1);
-    in_block0->_8[5] = alph((i / E1) % E1);
-    in_block1->_8[6] = alph(((i + 1)) % E1);
-    in_block1->_8[5] = alph(((i + 1) / E1) % E1);
-    in_block2->_8[6] = alph(((i + 2)) % E1);
-    in_block2->_8[5] = alph(((i + 2) / E1) % E1);
-    in_block3->_8[6] = alph(((i + 3)) % E1);
-    in_block3->_8[5] = alph(((i + 3) / E1) % E1);
+    in_block0->_8[8] = alph(i % E1);
+    in_block0->_8[7] = alph((i / E1) % E1);
+    in_block1->_8[8] = alph(((i + 1)) % E1);
+    in_block1->_8[7] = alph(((i + 1) / E1) % E1);
+    in_block2->_8[8] = alph(((i + 2)) % E1);
+    in_block2->_8[7] = alph(((i + 2) / E1) % E1);
+    in_block3->_8[8] = alph(((i + 3)) % E1);
+    in_block3->_8[7] = alph(((i + 3) / E1) % E1);
 
-    in_block0->_8[4] = alph((i / E2) % E1);
-    in_block0->_8[3] = alph((i / E3) % E1);
-    in_block0->_8[2] = alph((i / E4) % E1);
-    in_block0->_8[1] = alph((i / E5) % E1);
-    in_block0->_8[0] = alph((i / E6) % E1);
-    in_block0->_8[7] = 0x80;
+    in_block0->_8[6] = alph((i / E2) % E1);
+    in_block0->_8[5] = alph((i / E3) % E1);
+    in_block0->_8[4] = alph((i / E4) % E1);
+    in_block0->_8[3] = alph((i / E5) % E1);
+    in_block0->_8[2] = alph((i / E6) % E1);
+    in_block0->_8[1] = alph((i / E7) % E1);
+    in_block0->_8[0] = alph((i / E8) % E1);
+    in_block0->_8[9] = 0x80;
 
+    in_block1->_8[6] = in_block0->_8[6];
+    in_block1->_8[5] = in_block0->_8[5];
     in_block1->_8[4] = in_block0->_8[4];
     in_block1->_8[3] = in_block0->_8[3];
     in_block1->_8[2] = in_block0->_8[2];
     in_block1->_8[1] = in_block0->_8[1];
     in_block1->_8[0] = in_block0->_8[0];
-    in_block1->_8[7] = 0x80;
+    in_block1->_8[9] = 0x80;
 
+    in_block2->_8[6] = in_block0->_8[6];
+    in_block2->_8[5] = in_block0->_8[5];
     in_block2->_8[4] = in_block0->_8[4];
     in_block2->_8[3] = in_block0->_8[3];
     in_block2->_8[2] = in_block0->_8[2];
     in_block2->_8[1] = in_block0->_8[1];
     in_block2->_8[0] = in_block0->_8[0];
-    in_block2->_8[7] = 0x80;
+    in_block2->_8[9] = 0x80;
 
+    in_block3->_8[6] = in_block0->_8[6];
+    in_block3->_8[5] = in_block0->_8[5];
     in_block3->_8[4] = in_block0->_8[4];
     in_block3->_8[3] = in_block0->_8[3];
     in_block3->_8[2] = in_block0->_8[2];
     in_block3->_8[1] = in_block0->_8[1];
     in_block3->_8[0] = in_block0->_8[0];
-    in_block3->_8[7] = 0x80;
+    in_block3->_8[9] = 0x80;
 }
 void write_pass(union Block *in_block0, union Block *in_block1, union Block *in_block2, union Block *in_block3, uint64_t i)
 {
-    in_block0->_8[6] = alph(i % E1);
-    in_block0->_8[5] = alph((i / E1) % E1);
-    in_block1->_8[6] = alph(((i + 1)) % E1);
-    in_block1->_8[5] = alph(((i + 1) / E1) % E1);
-    in_block2->_8[6] = alph(((i + 2)) % E1);
-    in_block2->_8[5] = alph(((i + 2) / E1) % E1);
-    in_block3->_8[6] = alph(((i + 3)) % E1);
-    in_block3->_8[5] = alph(((i + 3) / E1) % E1);
+    in_block0->_8[8] = alph(i % E1);
+    in_block0->_8[7] = alph((i / E1) % E1);
+    in_block1->_8[8] = alph(((i + 1)) % E1);
+    in_block1->_8[7] = alph(((i + 1) / E1) % E1);
+    in_block2->_8[8] = alph(((i + 2)) % E1);
+    in_block2->_8[7] = alph(((i + 2) / E1) % E1);
+    in_block3->_8[8] = alph(((i + 3)) % E1);
+    in_block3->_8[7] = alph(((i + 3) / E1) % E1);
 
     /*    int j = i;
         in_block0->_8[6] = alph(i % E1);
@@ -3034,7 +5872,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xe8c7b756); /* 2 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S13, 0x242070db); /* 3 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3082,7 +5920,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xfd987193); /* 14 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S13, 0xa679438e); /* 15 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3128,7 +5966,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0x21e1cde6); /* 25 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S22, 0xc33707d6); /* 26 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3144,7 +5982,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0xa9e3e905); /* 29 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S22, 0xfcefa3f8); /* 30 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3170,7 +6008,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x6d9d6122); /* 35 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S34, 0xfde5380c); /* 36 */
     HH (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
@@ -3218,7 +6056,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x1fa27cf8); /* 47 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S34, 0xc4ac5665); /* 48 */
 
     /* Round 4 */
@@ -3232,7 +6070,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0x432aff97); /* 50 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S43, 0xab9423a7); /* 51 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3280,7 +6118,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0xbd3af235); /* 62 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S43, 0x2ad7d2bb); /* 63 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3308,7 +6146,14 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     uint32_t *vec_1 = (uint32_t *) &b_vec;
     uint32_t *vec_2 = (uint32_t *) &c_vec;
     uint32_t *vec_3 = (uint32_t *) &d_vec;
-
+    if (i == 0)
+    {
+        printf("%s\n", b1->_8 );
+        printf("%08x\n", vec_0[1]);
+        printf("%08x\n", vec_1[1]);
+        printf("%08x\n", vec_2[1]);
+        printf("%08x\n", vec_3[1]);
+    }
 
     if ((
                 (vec_0[0] ^ enigma._32[0]) |
@@ -3318,41 +6163,43 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b0->_8);
+        printf("\n%.9s\n", b0->_8);
+        exit(1);
     }
     else if ((
-                (vec_0[1] ^ enigma._32[0]) |
-                (vec_1[1] ^ enigma._32[1]) |
-                (vec_2[1] ^ enigma._32[2]) |
-                (vec_3[1] ^ enigma._32[3])
-            ) == 0)
+                 (vec_0[1] ^ enigma._32[0]) |
+                 (vec_1[1] ^ enigma._32[1]) |
+                 (vec_2[1] ^ enigma._32[2]) |
+                 (vec_3[1] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b1->_8);
+        printf("\n%.9s\n", b1->_8);
+        exit(1);
     }
     else if ((
-                (vec_0[2] ^ enigma._32[0]) |
-                (vec_1[2] ^ enigma._32[1]) |
-                (vec_2[2] ^ enigma._32[2]) |
-                (vec_3[2] ^ enigma._32[3])
-            ) == 0)
+                 (vec_0[2] ^ enigma._32[0]) |
+                 (vec_1[2] ^ enigma._32[1]) |
+                 (vec_2[2] ^ enigma._32[2]) |
+                 (vec_3[2] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b2->_8);
+        printf("\n%.9s\n", b2->_8);
+        exit(1);
     }
     else if ((
-                (vec_0[3] ^ enigma._32[0]) |
-                (vec_1[3] ^ enigma._32[1]) |
-                (vec_2[3] ^ enigma._32[2]) |
-                (vec_3[3] ^ enigma._32[3])
-            ) == 0)
+                 (vec_0[3] ^ enigma._32[0]) |
+                 (vec_1[3] ^ enigma._32[1]) |
+                 (vec_2[3] ^ enigma._32[2]) |
+                 (vec_3[3] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b3->_8);
+        printf("\n%.9s\n", b3->_8);
+        exit(1);
     }
 }
-
-
 void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
 {
     vec4 a_vec, b_vec, c_vec, d_vec;
@@ -3395,6 +6242,11 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
 
 
     /* Round 1 */
+    // FF (a_vec, b_vec, c_vec, d_vec, ((vec4)
+    // {
+    //     b0->_32[ 0], b1->_32[ 0], b2->_32[ 0], b3->_32[ 0]
+    // }), S11, 0xd76aa478); /* 1 */
+    /* Round 1 */
     FF (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
         b0->_32[ 0], b1->_32[ 0], b2->_32[ 0], b3->_32[ 0]
@@ -3404,14 +6256,13 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     b1->_32[3] = vec_0[1];
     b2->_32[3] = vec_0[2];
     b3->_32[3] = vec_0[3];
-
     FF (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
         b0->_32[ 1], b1->_32[ 1], b2->_32[ 1], b3->_32[ 1]
     }), S12, 0xe8c7b756); /* 2 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S13, 0x242070db); /* 3 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3459,7 +6310,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xfd987193); /* 14 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S13, 0xa679438e); /* 15 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3505,7 +6356,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0x21e1cde6); /* 25 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S22, 0xc33707d6); /* 26 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3521,7 +6372,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0xa9e3e905); /* 29 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S22, 0xfcefa3f8); /* 30 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3547,7 +6398,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x6d9d6122); /* 35 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S34, 0xfde5380c); /* 36 */
     HH (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
@@ -3595,7 +6446,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x1fa27cf8); /* 47 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S34, 0xc4ac5665); /* 48 */
 
     /* Round 4 */
@@ -3609,7 +6460,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0x432aff97); /* 50 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        56, 56, 56, 56
+        72,72,72,72
     }), S43, 0xab9423a7); /* 51 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3657,7 +6508,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0xbd3af235); /* 62 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        0, 0, 0, 0
+        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
     }), S43, 0x2ad7d2bb); /* 63 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3681,11 +6532,21 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
         0x10325476, 0x10325476, 0x10325476, 0x10325476
     };
 
+    vec_0 = (uint32_t *) &a_vec;
     uint32_t *vec_1 = (uint32_t *) &b_vec;
     uint32_t *vec_2 = (uint32_t *) &c_vec;
     uint32_t *vec_3 = (uint32_t *) &d_vec;
 
-    
+    if (i == 0)
+    {
+        printf("%s\n", b1->_8 );
+        printf("%08x\n", vec_0[1]);
+        printf("%08x\n", vec_1[1]);
+        printf("%08x\n", vec_2[1]);
+        printf("%08x\n", vec_3[1]);
+    }
+
+
     if ((
                 (vec_0[0] ^ enigma._32[0]) |
                 (vec_1[0] ^ enigma._32[1]) |
@@ -3694,70 +6555,40 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b0->_8);
+        printf("\n%.9s\n", b0->_8);
+        exit(1);
     }
-    if ((
-                (vec_0[1] ^ enigma._32[0]) |
-                (vec_1[1] ^ enigma._32[1]) |
-                (vec_2[1] ^ enigma._32[2]) |
-                (vec_3[1] ^ enigma._32[3])
-            ) == 0)
+    else if ((
+                 (vec_0[1] ^ enigma._32[0]) |
+                 (vec_1[1] ^ enigma._32[1]) |
+                 (vec_2[1] ^ enigma._32[2]) |
+                 (vec_3[1] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b1->_8);
+        printf("\n%.9s\n", b1->_8);
+        exit(1);
     }
-    if ((
-                (vec_0[2] ^ enigma._32[0]) |
-                (vec_1[2] ^ enigma._32[1]) |
-                (vec_2[2] ^ enigma._32[2]) |
-                (vec_3[2] ^ enigma._32[3])
-            ) == 0)
+    else if ((
+                 (vec_0[2] ^ enigma._32[0]) |
+                 (vec_1[2] ^ enigma._32[1]) |
+                 (vec_2[2] ^ enigma._32[2]) |
+                 (vec_3[2] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b2->_8);
+        printf("\n%.9s\n", b2->_8);
+        exit(1);
     }
-    if ((
-                (vec_0[3] ^ enigma._32[0]) |
-                (vec_1[3] ^ enigma._32[1]) |
-                (vec_2[3] ^ enigma._32[2]) |
-                (vec_3[3] ^ enigma._32[3])
-            ) == 0)
+    else if ((
+                 (vec_0[3] ^ enigma._32[0]) |
+                 (vec_1[3] ^ enigma._32[1]) |
+                 (vec_2[3] ^ enigma._32[2]) |
+                 (vec_3[3] ^ enigma._32[3])
+             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.7s\n", b3->_8);
+        printf("\n%.9s\n", b3->_8);
+        exit(1);
     }
-    
-/*
-    return (i * ((
-                     (vec_0[0] ^ enigma._32[0]) |
-                     (vec_1[0] ^ enigma._32[1]) |
-                     (vec_2[0] ^ enigma._32[2]) |
-                     (vec_3[0] ^ enigma._32[3])
-                 ) == 0)) |
-           ((i + 1) * ((
-                           (vec_0[1] ^ enigma._32[0]) |
-                           (vec_1[1] ^ enigma._32[1]) |
-                           (vec_2[1] ^ enigma._32[2]) |
-                           (vec_3[1] ^ enigma._32[3])
-                       ) == 0)) |
-           ((i + 2) * ((
-                           (vec_0[2] ^ enigma._32[0]) |
-                           (vec_1[2] ^ enigma._32[1]) |
-                           (vec_2[2] ^ enigma._32[2]) |
-                           (vec_3[2] ^ enigma._32[3])
-                       ) == 0)) |
-           ((i + 3) * ((
-                           (vec_0[3] ^ enigma._32[0]) |
-                           (vec_1[3] ^ enigma._32[1]) |
-                           (vec_2[3] ^ enigma._32[2]) |
-                           (vec_3[3] ^ enigma._32[3])
-                       ) == 0));
-*/
-    /*
-        Optimization
-        Test if it matches the default hash. Then we can
-        return a boolean value or just output and kill here
-    */
-
 }
-

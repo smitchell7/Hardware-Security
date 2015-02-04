@@ -5,15 +5,15 @@
 #include <omp.h>
 #include <math.h>
 #include <time.h>
-#include <stdlib.h>
 using namespace std;
 
 //
-#define N E7
+#define N D6
 #define _threads_ 16
 
 
 // password to crack
+
 
 
 #define passwd1 0xaebc994aa5b00a03
@@ -226,7 +226,7 @@ void test_hash(union Hash *ha, union Hash *en, union Block *in_block)
 void write_pass(union Block *in_block, uint64_t i)
 {
     int len;
-/*    if (i < D1)
+    if (i < D1)
     {
         in_block->_8[0] = alph(i);
         len = 1;
@@ -291,19 +291,19 @@ void write_pass(union Block *in_block, uint64_t i)
     }
     else if (i < D7)
     {
-*/
-        in_block->_8[0] = alph((i) % E1);
-        in_block->_8[1] = alph((((i) / E1) % E1));
-        in_block->_8[2] = alph((((i) / E2) % E1));
-        in_block->_8[3] = alph((((i) / E3) % E1));
-        in_block->_8[4] = alph((((i) / E4) % E1));
-        in_block->_8[5] = alph((((i) / E5) % E1));
-        in_block->_8[6] = alph((((i) / E6) % E1));
+
+        in_block->_8[0] = alph((i-D6) % E1);
+        in_block->_8[1] = alph((((i-D6) / E1) % E1));
+        in_block->_8[2] = alph((((i-D6) / E2) % E1));
+        in_block->_8[3] = alph((((i-D6) / E3) % E1));
+        in_block->_8[4] = alph((((i-D6) / E4) % E1));
+        in_block->_8[5] = alph((((i-D6) / E5) % E1));
+        in_block->_8[6] = alph((((i-D6) / E6) % E1));
         len = 7;
         in_block->_8[len] = 0x80;
         memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
-/*    }
+    }
     else if (i < D8)
     {
         in_block->_8[0] = alph((i - D7) % E1);
@@ -351,7 +351,7 @@ void write_pass(union Block *in_block, uint64_t i)
         in_block->_8[len] = 0x80;
         memset(&in_block->_8[len + 1], 0, 63 - len);
         in_block->_64[7] = len * 8;
-    }*/
+    }
 }
 
 
@@ -476,7 +476,6 @@ void F_MD5(union Block *bl, union Hash *ha)
     {
         printf("Found the hash!\n");
         printf("  %s\n", (char *)bl->_8);
-        exit(1);
     }
 
     /*

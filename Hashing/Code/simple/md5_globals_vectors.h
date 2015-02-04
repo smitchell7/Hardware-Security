@@ -3,16 +3,18 @@
 
 union Block
 {
-    uint64_t  _64[8];
-    uint32_t  _32[16];
-    uint8_t   _8[64];
-    Block() {}; // empty constructor
-    Block(uint8_t length) // initialization
-    {
-        memset(&this->_8[length + 1], 0, 55 - length);
-        this->_64[7] = length << 3;
-        this->_8[length] = 0x80;
-    };
+    uint64_t  _64[2];
+    uint32_t  _32[4];
+    uint8_t   _8[16];
+    Block() { // empty constructor
+        memset(this->_8, 0, 16);
+        };
+    // Block(uint8_t length) // initialization
+    // {
+    //     memset(&this->_8[length + 1], 0, 55 - length);
+    //     this->_64[7] = length << 3;
+    //     this->_8[length] = 0x80;
+    // };
 };
 union Hash
 {
@@ -46,7 +48,7 @@ union Hash enigma;
         enigma._8[0xd] = (b>> 16) &0xff;\
         enigma._8[0xe] = (b>>  8) &0xff;\
         enigma._8[0xf] = (b     ) &0xff;}
-#define alph(a) ('a'+a)
+#define alph(a) ('a'+(a%26))
 
 //original
 //#define ROTATE_LEFT(x,n) ((x<<n)|(x>>(32-n)))
@@ -100,10 +102,13 @@ union Hash enigma;
         (a) += (b); \
     }
 	
-void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3);
+void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i);
+void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i);
+
 void init(union Hash *ha);
 void write_pass(union Block *b0, union Block *bl, union Block *b2, union Block *b3, uint64_t i);
-typedef uint32_t vec4 __attribute__ ((vector_size (32)));
+void write_first_pass(union Block *in_block0, union Block *in_block1, union Block *in_block2, union Block *in_block3, uint64_t i);
+typedef uint32_t vec4 __attribute__ ((vector_size (16)));
 
 
 
