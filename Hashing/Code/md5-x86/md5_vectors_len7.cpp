@@ -1,9 +1,13 @@
+/* 
+ * MD5 Password testing
+ * Samuel Mitchell and Nathaniel Weidler
+ * 
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
 #include "md5_globals_vectors.h"
 #include <omp.h>
-#include <stdlib.h>
 
 
 #include <iostream>
@@ -12,27 +16,22 @@
 using namespace std;
 
 //#define N D7
-#define N E8
+#define N E7
 #define _threads_ 16
 
 
 // password to crack
 
-
-#define passwd1 0xaebc994aa5b00a03
-#define passwd2 0x08c9fd257bf63ebd
-// #define passwd1 0x2125ea8b81bc0ab7
-// #define passwd2 0xa16e47ca82c06735
 // zzzzzzz
-// #define passwd1 0xf0e8fb430bbdde6a
-// #define passwd2 0xe9c879a518fd895f
+#define passwd1 0xf0e8fb430bbdde6a
+#define passwd2 0xe9c879a518fd895f
 
 
 
 int main(int argc, char *argv[])
 {
 
-    printf("Seeking MD5 Password. \n\nTesting all length 8 passwords. \n");
+    printf("Seeking MD5 Password. \n\nTesting all length 7 passwords. \n");
     transform_password(passwd1, passwd2);
 
     union Block bl0, bl1, bl2, bl3;
@@ -2893,57 +2892,53 @@ int main(int argc, char *argv[])
 
 void write_first_pass(union Block *in_block0, union Block *in_block1, union Block *in_block2, union Block *in_block3, uint64_t i)
 {
-    in_block0->_8[7] = alph(i % E1);
-    in_block0->_8[6] = alph((i / E1) % E1);
-    in_block1->_8[7] = alph(((i + 1)) % E1);
-    in_block1->_8[6] = alph(((i + 1) / E1) % E1);
-    in_block2->_8[7] = alph(((i + 2)) % E1);
-    in_block2->_8[6] = alph(((i + 2) / E1) % E1);
-    in_block3->_8[7] = alph(((i + 3)) % E1);
-    in_block3->_8[6] = alph(((i + 3) / E1) % E1);
+    in_block0->_8[6] = alph(i % E1);
+    in_block0->_8[5] = alph((i / E1) % E1);
+    in_block1->_8[6] = alph(((i + 1)) % E1);
+    in_block1->_8[5] = alph(((i + 1) / E1) % E1);
+    in_block2->_8[6] = alph(((i + 2)) % E1);
+    in_block2->_8[5] = alph(((i + 2) / E1) % E1);
+    in_block3->_8[6] = alph(((i + 3)) % E1);
+    in_block3->_8[5] = alph(((i + 3) / E1) % E1);
 
-    in_block0->_8[5] = alph((i / E2) % E1);
-    in_block0->_8[4] = alph((i / E3) % E1);
-    in_block0->_8[3] = alph((i / E4) % E1);
-    in_block0->_8[2] = alph((i / E5) % E1);
-    in_block0->_8[1] = alph((i / E6) % E1);
-    in_block0->_8[0] = alph((i / E7) % E1);
-    in_block0->_8[8] = 0x80;
+    in_block0->_8[4] = alph((i / E2) % E1);
+    in_block0->_8[3] = alph((i / E3) % E1);
+    in_block0->_8[2] = alph((i / E4) % E1);
+    in_block0->_8[1] = alph((i / E5) % E1);
+    in_block0->_8[0] = alph((i / E6) % E1);
+    in_block0->_8[7] = 0x80;
 
-    in_block1->_8[5] = in_block0->_8[5];
     in_block1->_8[4] = in_block0->_8[4];
     in_block1->_8[3] = in_block0->_8[3];
     in_block1->_8[2] = in_block0->_8[2];
     in_block1->_8[1] = in_block0->_8[1];
     in_block1->_8[0] = in_block0->_8[0];
-    in_block1->_8[8] = 0x80;
+    in_block1->_8[7] = 0x80;
 
-    in_block2->_8[5] = in_block0->_8[5];
     in_block2->_8[4] = in_block0->_8[4];
     in_block2->_8[3] = in_block0->_8[3];
     in_block2->_8[2] = in_block0->_8[2];
     in_block2->_8[1] = in_block0->_8[1];
     in_block2->_8[0] = in_block0->_8[0];
-    in_block2->_8[8] = 0x80;
+    in_block2->_8[7] = 0x80;
 
-    in_block3->_8[5] = in_block0->_8[5];
     in_block3->_8[4] = in_block0->_8[4];
     in_block3->_8[3] = in_block0->_8[3];
     in_block3->_8[2] = in_block0->_8[2];
     in_block3->_8[1] = in_block0->_8[1];
     in_block3->_8[0] = in_block0->_8[0];
-    in_block3->_8[8] = 0x80;
+    in_block3->_8[7] = 0x80;
 }
 void write_pass(union Block *in_block0, union Block *in_block1, union Block *in_block2, union Block *in_block3, uint64_t i)
 {
-    in_block0->_8[7] = alph(i % E1);
-    in_block0->_8[6] = alph((i / E1) % E1);
-    in_block1->_8[7] = alph(((i + 1)) % E1);
-    in_block1->_8[6] = alph(((i + 1) / E1) % E1);
-    in_block2->_8[7] = alph(((i + 2)) % E1);
-    in_block2->_8[6] = alph(((i + 2) / E1) % E1);
-    in_block3->_8[7] = alph(((i + 3)) % E1);
-    in_block3->_8[6] = alph(((i + 3) / E1) % E1);
+    in_block0->_8[6] = alph(i % E1);
+    in_block0->_8[5] = alph((i / E1) % E1);
+    in_block1->_8[6] = alph(((i + 1)) % E1);
+    in_block1->_8[5] = alph(((i + 1) / E1) % E1);
+    in_block2->_8[6] = alph(((i + 2)) % E1);
+    in_block2->_8[5] = alph(((i + 2) / E1) % E1);
+    in_block3->_8[6] = alph(((i + 3)) % E1);
+    in_block3->_8[5] = alph(((i + 3) / E1) % E1);
 
     /*    int j = i;
         in_block0->_8[6] = alph(i % E1);
@@ -2985,7 +2980,7 @@ void write_pass(union Block *in_block0, union Block *in_block1, union Block *in_
         in_block3->_8[0] = alph((i / E6) % E1);
         in_block3->_8[7] = 0x80;*/
 }
-void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
+uint64_t F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
 {
     vec4 a_vec, b_vec, c_vec, d_vec;
     a_vec = (vec4)
@@ -3041,7 +3036,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xe8c7b756); /* 2 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S13, 0x242070db); /* 3 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3089,7 +3084,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xfd987193); /* 14 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S13, 0xa679438e); /* 15 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3135,7 +3130,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0x21e1cde6); /* 25 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S22, 0xc33707d6); /* 26 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3151,7 +3146,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0xa9e3e905); /* 29 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S22, 0xfcefa3f8); /* 30 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3177,7 +3172,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x6d9d6122); /* 35 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S34, 0xfde5380c); /* 36 */
     HH (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
@@ -3225,7 +3220,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x1fa27cf8); /* 47 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S34, 0xc4ac5665); /* 48 */
 
     /* Round 4 */
@@ -3239,7 +3234,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0x432aff97); /* 50 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S43, 0xab9423a7); /* 51 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3287,7 +3282,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0xbd3af235); /* 62 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S43, 0x2ad7d2bb); /* 63 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3325,8 +3320,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b0->_8);
-        exit(1);
+        printf("\n%.7s\n", b0->_8);
     }
     else if ((
                 (vec_0[1] ^ enigma._32[0]) |
@@ -3336,8 +3330,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b1->_8);
-        exit(1);
+        printf("\n%.7s\n", b1->_8);
     }
     else if ((
                 (vec_0[2] ^ enigma._32[0]) |
@@ -3347,8 +3340,7 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b2->_8);
-        exit(1);
+        printf("\n%.7s\n", b2->_8);
     }
     else if ((
                 (vec_0[3] ^ enigma._32[0]) |
@@ -3358,11 +3350,12 @@ void F_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b3->_8);
-        exit(1);
+        printf("\n%.7s\n", b3->_8);
     }
 }
-void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
+
+
+uint64_t G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, uint64_t i)
 {
     vec4 a_vec, b_vec, c_vec, d_vec;
     a_vec = (vec4)
@@ -3404,11 +3397,6 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
 
 
     /* Round 1 */
-    // FF (a_vec, b_vec, c_vec, d_vec, ((vec4)
-    // {
-    //     b0->_32[ 0], b1->_32[ 0], b2->_32[ 0], b3->_32[ 0]
-    // }), S11, 0xd76aa478); /* 1 */
-            /* Round 1 */
     FF (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
         b0->_32[ 0], b1->_32[ 0], b2->_32[ 0], b3->_32[ 0]
@@ -3418,13 +3406,14 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     b1->_32[3] = vec_0[1];
     b2->_32[3] = vec_0[2];
     b3->_32[3] = vec_0[3];
+
     FF (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
         b0->_32[ 1], b1->_32[ 1], b2->_32[ 1], b3->_32[ 1]
     }), S12, 0xe8c7b756); /* 2 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S13, 0x242070db); /* 3 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3472,7 +3461,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S12, 0xfd987193); /* 14 */
     FF (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S13, 0xa679438e); /* 15 */
     FF (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3518,7 +3507,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0x21e1cde6); /* 25 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S22, 0xc33707d6); /* 26 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3534,7 +3523,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S21, 0xa9e3e905); /* 29 */
     GG (d_vec, a_vec, b_vec, c_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S22, 0xfcefa3f8); /* 30 */
     GG (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
@@ -3560,7 +3549,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x6d9d6122); /* 35 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S34, 0xfde5380c); /* 36 */
     HH (a_vec, b_vec, c_vec, d_vec, ((vec4)
     {
@@ -3608,7 +3597,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S33, 0x1fa27cf8); /* 47 */
     HH (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S34, 0xc4ac5665); /* 48 */
 
     /* Round 4 */
@@ -3622,7 +3611,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0x432aff97); /* 50 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        64, 64, 64, 64
+        56, 56, 56, 56
     }), S43, 0xab9423a7); /* 51 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3670,7 +3659,7 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
     }), S42, 0xbd3af235); /* 62 */
     II (c_vec, d_vec, a_vec, b_vec, ((vec4)
     {
-        b0->_32[2], b1->_32[2], b2->_32[2], b3->_32[2]
+        0, 0, 0, 0
     }), S43, 0x2ad7d2bb); /* 63 */
     II (b_vec, c_vec, d_vec, a_vec, ((vec4)
     {
@@ -3694,12 +3683,11 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
         0x10325476, 0x10325476, 0x10325476, 0x10325476
     };
 
-    vec_0 = (uint32_t *) &a_vec;
     uint32_t *vec_1 = (uint32_t *) &b_vec;
     uint32_t *vec_2 = (uint32_t *) &c_vec;
     uint32_t *vec_3 = (uint32_t *) &d_vec;
 
-
+    
     if ((
                 (vec_0[0] ^ enigma._32[0]) |
                 (vec_1[0] ^ enigma._32[1]) |
@@ -3708,10 +3696,9 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b0->_8);
-        exit(1);
+        printf("\n%.7s\n", b0->_8);
     }
-    else if ((
+    if ((
                 (vec_0[1] ^ enigma._32[0]) |
                 (vec_1[1] ^ enigma._32[1]) |
                 (vec_2[1] ^ enigma._32[2]) |
@@ -3719,10 +3706,9 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b1->_8);
-        exit(1);
+        printf("\n%.7s\n", b1->_8);
     }
-    else if ((
+    if ((
                 (vec_0[2] ^ enigma._32[0]) |
                 (vec_1[2] ^ enigma._32[1]) |
                 (vec_2[2] ^ enigma._32[2]) |
@@ -3730,10 +3716,9 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b2->_8);
-        exit(1);
+        printf("\n%.7s\n", b2->_8);
     }
-    else if ((
+    if ((
                 (vec_0[3] ^ enigma._32[0]) |
                 (vec_1[3] ^ enigma._32[1]) |
                 (vec_2[3] ^ enigma._32[2]) |
@@ -3741,7 +3726,40 @@ void G_MD5(union Block *b0, union Block *b1, union Block *b2, union Block *b3, u
             ) == 0)
     {
         printf("The password was found! \n");
-        printf("\n%.8s\n", b3->_8);
-        exit(1);
+        printf("\n%.7s\n", b3->_8);
     }
+    
+/*
+    return (i * ((
+                     (vec_0[0] ^ enigma._32[0]) |
+                     (vec_1[0] ^ enigma._32[1]) |
+                     (vec_2[0] ^ enigma._32[2]) |
+                     (vec_3[0] ^ enigma._32[3])
+                 ) == 0)) |
+           ((i + 1) * ((
+                           (vec_0[1] ^ enigma._32[0]) |
+                           (vec_1[1] ^ enigma._32[1]) |
+                           (vec_2[1] ^ enigma._32[2]) |
+                           (vec_3[1] ^ enigma._32[3])
+                       ) == 0)) |
+           ((i + 2) * ((
+                           (vec_0[2] ^ enigma._32[0]) |
+                           (vec_1[2] ^ enigma._32[1]) |
+                           (vec_2[2] ^ enigma._32[2]) |
+                           (vec_3[2] ^ enigma._32[3])
+                       ) == 0)) |
+           ((i + 3) * ((
+                           (vec_0[3] ^ enigma._32[0]) |
+                           (vec_1[3] ^ enigma._32[1]) |
+                           (vec_2[3] ^ enigma._32[2]) |
+                           (vec_3[3] ^ enigma._32[3])
+                       ) == 0));
+*/
+    /*
+        Optimization
+        Test if it matches the default hash. Then we can
+        return a boolean value or just output and kill here
+    */
+
 }
+

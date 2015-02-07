@@ -1,3 +1,8 @@
+/* 
+ * MD5 Password testing
+ * Samuel Mitchell and Nathaniel Weidler
+ * 
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>

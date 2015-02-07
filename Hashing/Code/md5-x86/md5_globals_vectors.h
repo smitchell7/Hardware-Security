@@ -1,3 +1,8 @@
+/* 
+ * MD5 Password testing
+ * Samuel Mitchell and Nathaniel Weidler
+ * 
+ */
 #ifndef _MD5_CONST_
 #define _MD5_CONST_
 

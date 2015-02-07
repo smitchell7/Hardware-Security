@@ -1,6 +1,5 @@
 % \section{Software Implementation}
-	Overview and objectives
-	MD5 is a computationally simple operation with minimal execution time. An inefficient implementation of MD5 is sufficient for everyday hashing needs, however password recovery applications require an efficient method to test large numbers of passwords. 
+
 
 	Parallel computing is an effective method to quickly analyze large sets of data. OpenMP is one parallel computing implementation which has been in use for C/C++ since 1998 \cite{openmp}. The authors utilized this parallel computing method with 16 threads, separating the set of passwords into 16 equal portions. 
 
@@ -33,16 +32,26 @@
 		String precalculation was an unexpectedly effective optimization. This was not an improvement in MD5 calculation efficiency, but a removal of excessive overhead operations.  
 
 		Benchmarking was performed on all seven (7) character combinations of a lowercase, alphabetic character set. Comparisons were made between optimizations as well as best-case to the nominal OpenMP optimization. The comparisons of each optimization are noted in the respective section. The best-case system is compared to the nominal using the -O1, -O2, -O3, and -fomit-frame-pointer compiler flags. Results are found in Table \ref{tab:results}.
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Benchmarking performed on a computer with two (2) Intel Core i7-4770K CPUs. Each CPU has 4 cores, 3.5 GHz, released June 2013.}%The caption should describe the computer used for benchmarking (processor type, number of cores, release date, OS, etc.}
+  \input{tab_results}
+  \label{tab:results}%
+\end{table}%
+
+		The current market value of the Intel Core i7-4770K CPU is \$345. Disregarding power usage, this computing method yields 0.288 Megahashes per dollar or 2280 hashes per cent. 
 
 		Compiler flags are very important in optimizing execution time of a process. The 690\% speedup between md5pc\_O0 and md5pc\_O3 hash rates shows that performing operations in an out-of-order manner is often more effective than readable code. 
+
 
 	\subsection{Password recovery}
 		A hash of an unknown password was provided (aebc994aa5b00a0308c9fd257bf63ebd). In order to ensure that no passwords would be missed, password testing was performed in discrete groups: (1) 1-6 character strings, (2) 7 character strings, (3) 8 character strings, and so on. These tests were performed using the same processor used in the benchmarking tests in Table \ref{tab:results}. 
 
 		The 1-6 character strings were tested without optimizations because it was executed in an acceptably short time. No results were found. 5.91 second execution time. 
 
-		The 7 character string was tested using the program used in benchmarking. No results were found. 51.15 execution time.
+		The 7 character string was tested using the program used in benchmarking. No results were found. 51.15 second execution time.
 
-		The 8 character string was tested using a modified version of the benchmarking program. The resulting string "tyygsuef" was found in 6:18.85 (minutes:seconds). 
+		The 8 character string was tested using a modified version of the benchmarking program. The resulting string \textbf{tyygsuef} was found in 6:18.85 (minutes : seconds). 
 
 		In terms of total execution time, the testing was completed in 7:15.91. This does not represent testing every string of lengths 1-8, because the program ceased executing once the password was found. 
