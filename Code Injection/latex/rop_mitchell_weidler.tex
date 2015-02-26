@@ -45,7 +45,7 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 % What is needed to understand your optimisations and/or implementations.  Do you draw on existing techniques? If so, describe and cite them.
 
 \subsection{Structure of paper}
-	The organization is as follows: in Section II, the development of a software-based MD5 password cracking device is presented and analyzed. Section III contains the focus and development of a hardware-based MD5 password cracking device. Conclusions are presented in Section IV. 
+	The organization is as follows: in Section \ref{sec::design}, the system design and modifications required to enable the ROP attack are presented. Section \ref{sec::asm} contains the desired program and code required to inject the program into the system without ROP. Gadgets to utilize in the ROP attack are proposed in Section \ref{sec::gadget}. The design of the ROP attack are outlined in Section \ref{sec::rop}. Section \ref{sec::results} presents the implementation methods and results of the attack. Conclusions are discussed in Section \ref{sec::conclusion}. 
 
 % Problems: 
 % 	System design. Completed by Nathanael
@@ -60,22 +60,22 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 % 	Screenshot of executing the current code. 
 
 
-\section{System design}
+\section{System design} \label{sec::design} % Nathanael
 \input{rop_sys_design.tex}
 
-\section{Required assembly}
+\section{Required assembly} \label{sec::asm} % Sam
 \input{rop_assembly.tex}
 
-\section{Gadgets}
+\section{Gadgets} \label{sec::gadget} % not completed
 \input{rop_gadgets.tex}
 
-\section{ROP design}
+\section{ROP design}\label{sec::rop} % not completed
 \input{rop_rop.tex}
 
-\section{Implementation and results}
+\section{Implementation and results}\label{sec::results} % not completed 
 \input{rop_results.tex}
 
-\section{Conclusion}
+\section{Conclusion}\label{sec::conclusion} 
 
 
 % Summarize results and lessons learned.
