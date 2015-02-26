@@ -1,0 +1,81 @@
+add R0, #0x1
+	0b0001 1100 0100 0000
+	0xf100 0001
+b (-1)
+	0b1110 0111 1111 1111
+	0xe7fc
+nop 0xbf00. 
+That code is what we need. 
+
+main is at location 2aca. 
+Need to clear 2800. 
+Write 
+	0xf100 0001 to 2aca (or 2ac4?)
+	0xe7fc 0000 to 2ace
+return to 2aca. 
+
+
+	unsigned int * FLASH = (unsigned int *) 0x400FD000;
+	// clear the area 0x2800-0x2C00.
+	FLASH[0x0] = 0x2800;
+	FLASH[0x8/4] = 0xA4420002; // must divide by four because of int pointer. (4 bytes long)
+
+	// write the add instruction. 
+	FLASH[0x0] = 0x2ACA;
+	FLASH[0x4/4] = 0xF1000001;
+	FLASH[0x8/4] = 0xA4420001;
+
+	// write the branch instruction
+	FLASH[0x0] = 0x2ACE;
+	FLASH[0x4/4] = 0xE7FC0000;
+	FLASH[0x8/4] = 0xA4420001;
+	
+
+	////////////////////////////
+	// alternate sequence. 
+	unsigned int * FLASH = (unsigned int *) 0x400FD000;
+	// clear the area
+	FLASH[0x0] = 0x2800;
+	FLASH[0x8/4] = 0xA4420002;
+	FLASH[0x0] = 0x2ACA;
+	// write the add instruction
+	FLASH[0x100/4] = 0xF1000001;
+	// write the branch instruction
+	FLASH[0x104/4] = 0xE7FC0000;
+	FLASH[0x8/4] = 0xA4420001;
+
+f000 b804
+current values at 
+2ac4 	e92d	0b 1110 1011 0010 1101
+2ac6	4ff0	0b 0100 1111 1111 0000
+2ac8	b0c1	0b 1011 0000 1100 0001
+2aca 	a80e	0b 1010 1000 0000 1110
+2acc	9012	0b 1001 0000 0001 0010
+2ace
+2ad0 	49f9
+2ad2 	f04f 	0b 1111 0000 0100 1111
+2ad4 	7880 	0b 0111 1000 1000 0000
+2ad6 	6081 	0b 0110 0000 1000
+.
+.
+.
+2adc 	f642 	0b 1111 0110
+		f8d8 	0b 1111 1000 
+		0044	
+We want 
+		f100 	0b 1111 0001 0000 0000
+		0001 	0b 0000 0000 0000 0001
+then
+		e7fc 	0b 1110 0111 1111 1100
+		xxxx
+
+
+edit 0x27c. It's a branch instruction that can send us most places on the map. (line 44.)
+	f000 b804. options are to toggle any high bits. 
+
+
+
+Potential gadgets. 
+
+	bd70	pop {r4-r6,pc} ; repurposed to load r4 and r5 and branch to next gadget. 
+	602c	str r4, [r5,#0x0] ; store the other gadgets. 
