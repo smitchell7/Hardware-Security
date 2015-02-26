@@ -1,0 +1,68 @@
+The target of this project is to insert a program (see Figure \ref{fig::insert}) that will run at reset. The current main function is located at memory address 0x2aca. Executable memory must be reprogrammed through the Flash module (located at 0x400fd000). There are multiple methods to reprogram the code space at 0x2aca. 
+	\begin{figure}[htbp]
+		\lstset{language={[thumb]Assembler}} 
+		\begin{lstlisting}
+Start
+	add R0, #0x1 	; 0xf1000001
+	b Start		; 0xe7fc
+		\end{lstlisting}
+		\caption{The program to be inserted. }\label{fig::insert}
+	\end{figure}
+
+Flash memory can either be erased or programmed. Memory is erased (the bits are cleared to a value of 1) in 1kb chunks. Programming can only bring a bit from high to low (1 to 0). The most simple method to insert the program at main would be to overwrite existing code currently located at main. This method is only available if the desired command has 1s located in the same position as the existing command's 1s. See Figure \ref{fig::ham}. 
+	\begin{figure}[htbp]
+		\lstset{language={[thumb]Assembler}} 
+		\begin{lstlisting}
+Current instruction	0xe92d4ff0
+Desired instruction	0xf1000001
+		\end{lstlisting}
+		\caption{Writing the desired instruction doesn't work because the current instruction bits would require 0 to 1 programming.  }\label{fig::ham}
+	\end{figure}
+The target program does not have convenient programming instructions, as can be seen in Figure \ref{fig::ham}. The memory at main must first be erased (written to 1s) then programmed. The procedures to erase, reprogram, and an alternate reprogramming sequence are located in Figures \ref{fig::erase}, \ref{fig::prog}, \ref{fig::alt_prog}, respectively. 
+		\lstset{language=C} 
+	\begin{figure}[htbp]
+		\begin{lstlisting}
+// base address
+uint32_t * FLASH = (uint32_t *) 0x400FD000;
+FLASH[0x0] = 0x2800; // address to erase
+// clear the area 0x2800-0x2C00
+// perform erase command
+FLASH[0x8/4] = 0xA4420002; 
+		\end{lstlisting}
+		\caption{Erasing sequence. }\label{fig::erase}
+	\end{figure}
+	\begin{figure}[htbp]
+		\begin{lstlisting}
+// address to program
+FLASH[0x0] = 0x2ACA; 
+// add instruction
+FLASH[0x4/4] = 0xF1000001; 
+// perform write command
+FLASH[0x8/4] = 0xA4420001; 
+
+// address to program
+FLASH[0x0] = 0x2ACE; 
+// branch instruction
+FLASH[0x4/4] = 0xE7FC0000; 
+// perform write command
+FLASH[0x8/4] = 0xA4420001; 
+		\end{lstlisting}
+		\caption{Reprogramming sequence. }\label{fig::prog}
+	\end{figure}
+	\begin{figure}[htbp]
+		\begin{lstlisting}
+// address to program
+FLASH[0x0] = 0x2ACA; 
+// add instruction
+FLASH[0x100/4] = 0xF1000001;
+// branch instruction
+FLASH[0x104/4] = 0xE7FC0000;
+// perform write command
+FLASH[0x8/4] = 0xA4420001; 
+		\end{lstlisting}
+		\caption{Alternative reprogramming sequence. }\label{fig::alt_prog}
+	\end{figure}
+
+Translating the rewrite procedure into assembly will require a load / move / pop instruction to populate registers, followed by a store command to write to memory. The load / move / pop command will be discussed in Section \ref{sec::gadget}. 
+
+

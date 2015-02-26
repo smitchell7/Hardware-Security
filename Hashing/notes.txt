@@ -30,6 +30,13 @@ return to 2aca.
 	FLASH[0x4/4] = 0xE7FC0000;
 	FLASH[0x8/4] = 0xA4420001;
 	
+Translated into assembly
+{
+	str r0,[sp,#0x48]
+	ldr r0,[pc,#996] ; 0x2eb4
+	ldr r1,[pc,#996] ; 0x2eb8
+	mov r8
+}
 
 	////////////////////////////
 	// alternate sequence. 
@@ -37,12 +44,30 @@ return to 2aca.
 	// clear the area
 	FLASH[0x0] = 0x2800;
 	FLASH[0x8/4] = 0xA4420002;
-	FLASH[0x0] = 0x2ACA;
-	// write the add instruction
-	FLASH[0x100/4] = 0xF1000001;
-	// write the branch instruction
-	FLASH[0x104/4] = 0xE7FC0000;
-	FLASH[0x8/4] = 0xA4420001;
+	
+	FLASH[0x0] = 0x2ACA; // address to program
+	FLASH[0x100/4] = 0xF1000001;// add instruction
+	FLASH[0x104/4] = 0xE7FC0000;// branch instruction
+	FLASH[0x8/4] = 0xA4420001; // perform write command
+Translated into assembly
+{
+	ldr r9,[pc,#1024] ; f8df9400 (also mov32 available. )
+	mov r0,#0x2800 ; f44f5020
+	str r0,[r9,#0x0] ; f8c9 0000
+	ldr .....
+	str r0,[r9,#0x08]; f8c9 0008
+	ldr .....
+	str r0,[r9,0x100]; f8c9 0100
+	ldr .....
+	str r0,[r9,#0x104]; f8c9 0104
+	ldr .....
+	str r0,[r9,#0x8]; f8c9 0008
+
+
+
+}
+
+
 
 f000 b804
 current values at 
