@@ -1,0 +1,89 @@
+\input{ieee_template}
+\begin{document}
+
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Reprogramming embedded systems using Return Oriented Programming}
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Sam Mitchell and Nathanael Weidler}
+\IEEEauthorblockA{Deptartment of Electrical and Computer Engineering\\
+Utah Stat University\\
+Logan, Utah 84322\\
+e-mail: samuel.alan.mitchell@gmail.com, NWeidler@gmail.com}
+}
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+% Summarize project and results (executive summary).
+This paper describes the implementation of high-throughput password cracking devices. We consider architecture-aware implementations of password crackers on FPGA and X86 architectures. An analysis of speed and cost efficacy is included. 
+This paper describes the theory and implementation of a return-oriented programming attack on a TM4C123GH6PM microcontroller. We describe the gadget searching process, as well as the injection method. 
+
+
+% This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
+\end{abstract}
+
+\begin{IEEEkeywords}
+Passwords, MD5, authentication, password-cracking algorithms, data security.
+\end{IEEEkeywords}
+
+\section{Introduction}
+	Single-purpose embedded devices such as voting machines or vehicle guidance controllers are generally considered to be secure machines. Previous work has shown that Return Oriented Programming (ROP) methods can be used to clear and reset Harvard architecture-devices. % cite trevor, a few other papers. 
+
+	ROP is a type of buffer-overflow attack that modifies the return address of the existing program, causing the program to execute existing code. In x86 architectures, ROP attacks generally jump into libc to control the behavior of the compromised program. Harvard architectures use similar techniques --- manufacturer-provided peripheral driver libraries provide sufficient code-space to implement a devastating ROP attack.  
+
+% Describe the problem and what you're doing to address it (i.e.\ building architecture-informed md5 password cracker for software and hardware; how password cracking operates).  
+
+% \subsection{Related work}
+% 	Previous work in efficient implementations of 
+% What is needed to understand your optimisations and/or implementations.  Do you draw on existing techniques? If so, describe and cite them.
+
+\subsection{Structure of paper}
+	The organization is as follows: in Section II, the development of a software-based MD5 password cracking device is presented and analyzed. Section III contains the focus and development of a hardware-based MD5 password cracking device. Conclusions are presented in Section IV. 
+
+% Problems: 
+% 	System design. Completed by Nathanael
+% 	Exploitation. 
+
+% Reporting requirements:
+% 	Provide required assembly. 
+% 	Gadgets (based on figure 16 of The Geometry of Innocent Flesh on the Bone)
+% 	Injected stack. 
+% 		Contents before and after overwriting the buffer. 
+% 		Contents of flash before and after rewriting it. 
+% 	Screenshot of executing the current code. 
+
+
+\section{System design}
+\input{rop_sys_design.tex}
+
+\section{Required assembly}
+\input{rop_assembly.tex}
+
+\section{Gadgets}
+\input{rop_gadgets.tex}
+
+\section{ROP design}
+\input{rop_rop.tex}
+
+\section{Implementation and results}
+\input{rop_results.tex}
+
+\section{Conclusion}
+
+
+% Summarize results and lessons learned.
+	This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
+\bibliography{report}
+% that's all folks
+\end{document}
+
+
+
+\end{document}
