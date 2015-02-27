@@ -16,8 +16,8 @@ using namespace std;
 
 
 
-#define passwd1 0xaebc994aa5b00a03
-#define passwd2 0x08c9fd257bf63ebd
+#define passwd1 0x6860dc09458a8c2d
+#define passwd2 0xb36f9f9cf73a5fa3
 
 int main(int argc, char *argv[])
 {

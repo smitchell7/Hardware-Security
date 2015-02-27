@@ -1,4 +1,12 @@
 FILE=md5_main_vectors
+test:
+	g++ -O3 md5_vectors_len1-6.cpp -fopenmp -o l1-6
+	g++ -O3 md5_main_vectors.cpp -fopenmp -o l7  -mavx
+	g++ -O3 md5_vectors_len8.cpp -fopenmp -o l8 -mavx
+	g++ -O3 md5_vectors_len9.cpp -fopenmp -o l9 -mavx
+	./l1-6
+	./l7
+
 benchmark:
 	g++ md5_main.cpp -fopenmp -o md5pc_base
 	time ./md5pc_base

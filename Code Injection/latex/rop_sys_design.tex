@@ -1,0 +1,3 @@
+% write about the auth() function and the UART buffer check disable
+
+As part of the preparation for the ROP implementation, we disabled some  optimizations in order to simplify the attack. The compiler flag -O0 was used instead of -O2, which made the assembly code more readable. Another compiler flag, --no\_protect\_stack, was used to remove canaries which alert the program when the stack is corrupted. The linker flag, --no\_remove, ensured that the included libraries were flashed to the board even if the code wasn't executed. This doubled our available code space, which allowed for more precise selection of gadgets. 

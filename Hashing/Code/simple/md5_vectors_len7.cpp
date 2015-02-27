@@ -18,8 +18,8 @@ using namespace std;
 // password to crack
 
 // zzzzzzz
-#define passwd1 0xf0e8fb430bbdde6a
-#define passwd2 0xe9c879a518fd895f
+#define passwd1 0x6860dc09458a8c2d
+#define passwd2 0xb36f9f9cf73a5fa3
 
 
 
