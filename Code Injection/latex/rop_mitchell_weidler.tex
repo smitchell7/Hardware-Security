@@ -48,7 +48,7 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 % What is needed to understand your optimisations and/or implementations.  Do you draw on existing techniques? If so, describe and cite them.
 
 \subsection{Structure of paper}
-	The organization is as follows: in Section \ref{sec::design}, the system design and modifications required to enable the ROP attack are presented. Section \ref{sec::asm} contains the desired program and code required to inject the program into the system without ROP. Gadgets to utilize in the ROP attack and the required sequence of execution are proposed in Section \ref{sec::gadget}. Section \ref{sec::results} presents the implementation methods and results of the attack. Conclusions are discussed in Section \ref{sec::conclusion}. 
+	The organization is as follows: in Section \ref{sec::design}, the system design and modifications required to enable the ROP attack are presented. Section \ref{sec::asm} contains the desired program and code required to inject the program into the system without ROP. Gadgets to utilize in the ROP attack and the required sequence of execution are proposed in Section \ref{sec::gadget}. Section \ref{sec::results} describes the implementation methods, and Section \ref{res1} presents the results of the attack. Conclusions are discussed in Section \ref{sec::conclusion}. 
 
 % Problems: 
 % 	System design. Completed by Nathanael
@@ -74,9 +74,12 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 % \section{ROP design}\label{sec::rop} % not completed
 \input{rop_rop.tex}
 
-\section{Implementation and results}\label{sec::results} % not completed 
+\section{Implementation}\label{sec::results} % not completed 
 \input{rop_results.tex}
 \input{stack.tex}
+
+\section{Results}\label{res1}
+\input{rop_res1.tex}
 
 \section{Conclusion}\label{sec::conclusion} 
 

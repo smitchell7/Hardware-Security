@@ -24,7 +24,7 @@ The target program does not have convenient programming instructions, as can be 
 		\begin{lstlisting}
 // base address
 uint32_t * FLASH = (uint32_t *) 0x400FD000;
-FLASH[0x0] = 0x2800; // address to erase
+FLASH[0x0] = 0x4800; // address to erase
 // clear the area 0x2800-0x2C00
 // perform erase command
 FLASH[0x8/4] = 0xA4420002; 
@@ -34,14 +34,14 @@ FLASH[0x8/4] = 0xA4420002;
 	\begin{figure}[htbp]
 		\begin{lstlisting}
 // address to program
-FLASH[0x0] = 0x2ACA; 
+FLASH[0x0] = 0x4BA0; 
 // add instruction
 FLASH[0x4/4] = 0xF1000001; 
 // perform write command
 FLASH[0x8/4] = 0xA4420001; 
 
 // address to program
-FLASH[0x0] = 0x2ACE; 
+FLASH[0x0] = 0x4BA4; 
 // branch instruction
 FLASH[0x4/4] = 0xE7FC0000; 
 // perform write command
@@ -52,15 +52,17 @@ FLASH[0x8/4] = 0xA4420001;
 	\begin{figure}[htbp]
 		\begin{lstlisting}
 // address to program
-FLASH[0x0] = 0x2ACA; 
+FLASH[0x0] = 0x4AE0; 
 // add instruction
-FLASH[0x100/4] = 0xF1000001;
+FLASH[0x120/4] = 0xF1000001;
 // branch instruction
-FLASH[0x104/4] = 0xE7FC0000;
+FLASH[0x124/4] = 0xE7FC0000;
+// force enable write 
+FLASH[0x30/4] = 0xFFFFFFFF;
 // perform write command
 FLASH[0x20/4] = 0xA4420001; 
 		\end{lstlisting}
-		\caption{Alternative reprogramming sequence. }\label{fig::alt_prog}
+		\caption{Alternative reprogramming sequence.  }\label{fig::alt_prog}
 	\end{figure}
 
 Translating the rewrite procedure into assembly will require a load / move / pop instruction to populate registers, followed by a store command to write to memory. The load / move / pop command is discussed in Section \ref{sec::gadget}. 
