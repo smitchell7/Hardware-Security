@@ -1,0 +1,40 @@
+% Author: Rasmus Pank Roulund
+
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{block} = [draw, fill=white, rectangle, 
+    minimum height=2em, minimum width=6em]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+\begin{figure}[htbp]
+
+\begin{tikzpicture}[auto, node distance=2em,>=latex']
+% \begin{scope}[node distance=3em and 20em]%Here we change it for everything inside this scope
+  % \node [block,name=stack] {Stack};
+  % \node [output, right= 2em of stack] (rstack) {};
+  % \node [output, left= 2em of stack] (lstack) {};
+
+
+  \node [block,below of=block] (uname) {Username};
+  \node [block,below of =uname] (passd) {Password};
+
+  \node [output, right= 2em of uname] (runame) {};
+  \node [output, right= 2em of passd] (rpassd) {};
+ 
+  \node [output, left= 2em of uname] (luname) {};
+  \node [output, left= 2em of passd] (lpassd) {};
+
+
+
+  \draw [->] (uname) -- (runame) -- (rpassd) -- (passd);
+  % \draw [->] (stack) -- (lstack) -- (luname) -- (uname);
+
+\end{tikzpicture}
+\caption{The ROP attack construction. }
+\label{fig::stack}
+\end{figure}
+% \begin{lstlisting}
+% bottom of 
+% memory    
+
+% \end{lstlisting}

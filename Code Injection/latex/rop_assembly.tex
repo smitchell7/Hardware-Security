@@ -3,8 +3,8 @@ The target of this project is to insert a program (see Figure \ref{fig::insert})
 		\lstset{language={[thumb]Assembler}} 
 		\begin{lstlisting}
 Start
-	add R0, #0x1 	; 0xf1000001
-	b Start		; 0xe7fc
+	add R0, #0x1 	; 0xF1000001
+	b Start		; 0xE7FC
 		\end{lstlisting}
 		\caption{The program to be inserted. }\label{fig::insert}
 	\end{figure}
@@ -13,8 +13,8 @@ Flash memory can either be erased or programmed. Memory is erased (the bits are 
 	\begin{figure}[htbp]
 		\lstset{language={[thumb]Assembler}} 
 		\begin{lstlisting}
-Current instruction	0xe92d4ff0
-Desired instruction	0xf1000001
+Current instruction	0xE92D4FF0
+Desired instruction	0xF1000001
 		\end{lstlisting}
 		\caption{Writing the desired instruction doesn't work because the current instruction bits would require 0 to 1 programming.  }\label{fig::ham}
 	\end{figure}
@@ -58,7 +58,7 @@ FLASH[0x100/4] = 0xF1000001;
 // branch instruction
 FLASH[0x104/4] = 0xE7FC0000;
 // perform write command
-FLASH[0x8/4] = 0xA4420001; 
+FLASH[0x20/4] = 0xA4420001; 
 		\end{lstlisting}
 		\caption{Alternative reprogramming sequence. }\label{fig::alt_prog}
 	\end{figure}

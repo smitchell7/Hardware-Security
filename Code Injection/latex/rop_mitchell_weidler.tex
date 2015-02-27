@@ -1,4 +1,6 @@
 \input{../../ieee_template}
+\usepackage{tikz}
+\usepackage{verbatim}
 \usepackage{listings}
 \begin{document}
 
@@ -24,7 +26,7 @@ e-mail: samuel.alan.mitchell@gmail.com, NWeidler@gmail.com}
 %\boldmath
 % Summarize project and results (executive summary).
 % This paper describes the implementation of high-throughput password cracking devices. We consider architecture-aware implementations of password crackers on FPGA and X86 architectures. An analysis of speed and cost efficacy is included. 
-This paper describes the theory and implementation of a return-oriented programming attack on a TM4C123GH6PM microcontroller. We describe the gadget searching process, as well as the injection method. 
+This paper describes the theory and implementation of a return-oriented programming attack on a ARM-based device. The attack reprograms the device to execute our desired code upon reset. We describe the gadget searching process and the code injection method. 
 
 
 % This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
@@ -35,9 +37,9 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 \end{IEEEkeywords}
 
 \section{Introduction}
-	Single-purpose embedded devices such as voting machines or vehicle guidance controllers are generally considered to be secure machines. Previous work has shown that Return Oriented Programming (ROP) methods can be used to clear and reset Harvard architecture-devices. % cite trevor, a few other papers. 
+	Single-purpose embedded devices such as voting machines or vehicle guidance controllers are generally considered to be secure machines. Previous work has shown that Return Oriented Programming (ROP) methods can be used to attack ARM-based devices \cite{checkoway2009can} \cite{Kunz}. % cite trevor, a few other papers. 
 
-	ROP is a type of buffer-overflow attack that modifies the return address of the existing program, causing the program to execute existing code. In x86 architectures, ROP attacks generally jump into libc to control the behavior of the compromised program. Harvard architectures use similar techniques --- manufacturer-provided peripheral driver libraries provide sufficient code-space to implement a devastating ROP attack.  
+	ROP is a type of buffer-overflow attack that modifies the return address of the existing program, causing the program to execute existing code. In x86 architectures, ROP attacks generally jump into libc to control the behavior of the compromised program. An attack on an ARM-based device uses similar techniques --- manufacturer-provided peripheral driver libraries provide sufficient code-space to implement a devastating ROP attack.  
 
 % Describe the problem and what you're doing to address it (i.e.\ building architecture-informed md5 password cracker for software and hardware; how password cracking operates).  
 
@@ -46,7 +48,7 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 % What is needed to understand your optimisations and/or implementations.  Do you draw on existing techniques? If so, describe and cite them.
 
 \subsection{Structure of paper}
-	The organization is as follows: in Section \ref{sec::design}, the system design and modifications required to enable the ROP attack are presented. Section \ref{sec::asm} contains the desired program and code required to inject the program into the system without ROP. Gadgets to utilize in the ROP attack are proposed in Section \ref{sec::gadget}. The design of the ROP attack are outlined in Section \ref{sec::rop}. Section \ref{sec::results} presents the implementation methods and results of the attack. Conclusions are discussed in Section \ref{sec::conclusion}. 
+	The organization is as follows: in Section \ref{sec::design}, the system design and modifications required to enable the ROP attack are presented. Section \ref{sec::asm} contains the desired program and code required to inject the program into the system without ROP. Gadgets to utilize in the ROP attack and the required sequence of execution are proposed in Section \ref{sec::gadget}. Section \ref{sec::results} presents the implementation methods and results of the attack. Conclusions are discussed in Section \ref{sec::conclusion}. 
 
 % Problems: 
 % 	System design. Completed by Nathanael
@@ -64,7 +66,7 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 \section{System design} \label{sec::design} % Nathanael
 \input{rop_sys_design.tex}
 
-\section{Required assembly} \label{sec::asm} % Sam
+\section{Reprogramming method} \label{sec::asm} % Sam
 \input{rop_assembly.tex}
 
 \section{Gadgets} \label{sec::gadget} % not completed
@@ -74,15 +76,17 @@ Return Oriented Programming, Security, ARM, Harvard architecture.
 
 \section{Implementation and results}\label{sec::results} % not completed 
 \input{rop_results.tex}
+\input{stack.tex}
 
 \section{Conclusion}\label{sec::conclusion} 
 
 
 % Summarize results and lessons learned.
-	This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
+	% This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
+	This paper demonstrates an ROP attack on a Harvard-architecture device. It is shown that it is possible to insert a program that will return to execution after restart, while the device is still running. Future research will address the attack of the device without limitations imposed in Section \ref{sec::design}.
 \bibliography{report}
 % that's all folks
-\end{document}
+
 
 
 

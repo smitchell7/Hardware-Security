@@ -1,3 +1,6 @@
 % write about the auth() function and the UART buffer check disable
+A traditional ROP attack is performed using strcpy() or UARTgets() buffer overflow. This adds complexity to the problem when trying to transmit a backspace (0x08) character across the line, because the buffer treats it as a backspace. The UARTgets() function was altered to still insert the backspace character. 
+
+Another protection built in with the function UARTgets() is the expected buffer size limit. The function normally accepts the buffer size as an argument, which would prevent buffer overflow, thereby rendering any ROP impossible. This functionality was also disabled. 
 
 As part of the preparation for the ROP implementation, we disabled some  optimizations in order to simplify the attack. The compiler flag -O0 was used instead of -O2, which made the assembly code more readable. Another compiler flag, --no\_protect\_stack, was used to remove canaries which alert the program when the stack is corrupted. The linker flag, --no\_remove, ensured that the included libraries were flashed to the board even if the code wasn't executed. This doubled our available code space, which allowed for more precise selection of gadgets. 
