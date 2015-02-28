@@ -2,12 +2,12 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{amsmath}
 \usepackage[english]{babel} %localisation
-\usepackage{caption,subcaption} %supposedly incompatible with Springer and IOP, IEEETran and ACM SIG
+% \usepackage{caption,subcaption} %supposedly incompatible with Springer and IOP, IEEETran and ACM SIG
 \usepackage{cite} %nice citations, e.g. [1--5]
 \usepackage{fixltx2e} %fix latex bugs
-\usepackage{graphicx}
+\usepackage[pdftex]{graphicx}
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} %clickable URLS
-\usepackage[htt]{hyphenat} %hyphenate \texttt
+% \usepackage[htt]{hyphenat} %hyphenate \texttt
 \usepackage{microtype} %makes text pretty; also condenses
 \usepackage{multirow} %multiple rows in tables
 \usepackage{siunitx,textcomp} %\SI{value}{unit}, \si{unit}; textcomp for microtype compatibility
@@ -17,3 +17,20 @@
 \usepackage[T1]{fontenc} %ensure proper hyphenation and treatment of math in sentences
 \usepackage{booktabs}
 \bibliographystyle{IEEEtran}
+\ifCLASSINFOpdf   
+   % \usepackage[pdftex]{graphicx}     
+   % declare the path(s) where your graphic files are       
+   % \graphicspath{{../pdf/}{../jpeg/}{./image/}}    
+   % and their extensions so you won't have to specify these with    
+   % every instance of \includegraphics      
+   \DeclareGraphicsExtensions{.pdf,.jpeg,.png,.jpg}   
+ \else   
+   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx     
+   % will default to the driver specified in the system graphics.cfg if no   % driver is specified.    
+   \usepackage[dvips]{graphicx}   
+   % declare the path(s) where your graphic files are     
+   \graphicspath{{../eps/}}    
+  % and their extensions so you won't have to specify these with   
+  % every instance of \includegraphics    
+  % \DeclareGraphicsExtensions{.eps}   
+\fi
