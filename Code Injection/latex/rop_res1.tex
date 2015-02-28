@@ -1,4 +1,4 @@
-The successful ROP attack works very well, as shown by the device executing the injected code in Figure \ref{fig::ex}.  The stack before the exploit is shown in Figure \ref{fig::st1}, with the corrupted stack shown in Figure \ref{fig::st2}. The flash memory is shown in the following states: original, erased, written, and rewritten in Figures \ref{fig::fl0}, \ref{fig::fl1}, \ref{fig::fl2}, \ref{fig::fl3}. 
+The successful ROP attack works very well, as shown by the device executing the injected code in Figure \ref{fig::ex}.  The stack before the exploit is shown in Figure \ref{fig::st1} and Figure \ref{fig::st3}, with the corrupted stack shown in Figure \ref{fig::st2} and Figure \ref{fig::st4}. The flash memory is shown in the following states: original, erased, written, and rewritten in Figures \ref{fig::fl0}, \ref{fig::fl1}, \ref{fig::fl2}, \ref{fig::fl3}. 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.7]{ex2}
@@ -9,12 +9,23 @@ The successful ROP attack works very well, as shown by the device executing the 
 \begin{figure}[p]
 	\centering
 	\includegraphics[\width=0.5\textwidth]{StackBefore1}
-	\caption{The stack prior to any tampering. }\label{fig::st1}
+	\caption{The stack prior to any tampering - 1. }\label{fig::st1}
 \end{figure}
 \begin{figure}[p]
 	\centering
-	\includegraphics[\width=0.5 \textwidth]{stackAfter}
-	\caption{The stack after corruption. }\label{fig::st2}
+	\includegraphics[\width=0.5 \textwidth]{stackAfter1}
+	\caption{The stack after corruption - 1. }\label{fig::st2}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[\width=0.5\textwidth]{StackBefore2}
+	\caption{The stack prior to any tampering - 2. }\label{fig::st3}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[\width=0.5 \textwidth]{stackAfter2}
+	\caption{The stack after corruption - 2. }\label{fig::st4}
 \end{figure}
 
 \begin{figure}[p]
