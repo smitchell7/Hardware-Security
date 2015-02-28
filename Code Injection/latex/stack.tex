@@ -15,20 +15,25 @@
   % \node [output, left= 2em of stack] (lstack) {};
 
 
-  \node [block] (uname) {Stack {\small24 bytes}};
+  \node [block] (uname) {Stack {\small32 bytes}};
   \node [block,below of=uname] (passd) {Overflow R4};
   \node [block,below of=passd] (pass1) {Overflow R5};
   \node [block,below of=pass1] (pass2) {Overflow PC};
-
-  \node [output, right= 2em of uname] (runame) {};
-  \node [output, right= 2em of passd] (rpassd) {};
-  \node [output, right= 2em of pass1] (rpass1) {};
-  \node [output, right= 2em of pass2] (rpass2) {};
+  \node [block,below of=pass2] (pass3) {Gadget A R4};
+  \node [block,below of=pass3] (pass4) {Gadget A PC};
+  \node [block,below of=pass4] (pass5) {Gadget B R4};
+  \node [block,below of=pass5] (pass6) {Gadget B PC};
+  \node [block,below of=pass6] (pass7) {Gadget A R4};
+  \node [block,below of=pass7] (pass8) {Gadget A PC};
+  % \node [output, right= 2em of uname] (runame) {};
+  % \node [output, right= 2em of passd] (rpassd) {};
+  % \node [output, right= 2em of pass1] (rpass1) {};
+  % \node [output, right= 2em of pass2] (rpass2) {};
  
-  \node [output, left= 2em of uname] (luname) {};
-  \node [output, left= 2em of passd] (lpassd) {};
-  \node [output, left= 2em of pass1] (lpass1) {};
-  \node [output, left= 2em of pass2] (lpass2) {};
+  % \node [output, left= 2em of uname] (luname) {};
+  % \node [output, left= 2em of passd] (lpassd) {};
+  % \node [output, left= 2em of pass1] (lpass1) {};
+  % \node [output, left= 2em of pass2] (lpass2) {};
 
 
 
