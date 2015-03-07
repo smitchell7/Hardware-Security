@@ -5,7 +5,7 @@ Because Thumb assembly does not contain any return commands, alternatives to thi
 The flash rewrite sequence contained in Figures \ref{fig::erase} and \ref{fig::alt_prog} requires two operations: load and store. Our search for gadgets resulted in two effective sets of instructions, located in Figure \ref{fig::gadget1}. 
 
 	\begin{figure}[htbp]
-		\lstset{language={[thumb]Assembler}} 
+		% \lstset{language={[thumb]Assembler}} 
 		\begin{lstlisting}
 ; Gadget A at 0x3673
 str R0, [R4,#0x0]

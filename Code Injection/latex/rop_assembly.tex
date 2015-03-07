@@ -1,6 +1,6 @@
 The target of this project is to insert a program (see Figure \ref{fig::insert}) that will run at reset. The current main() function is located at memory address 0x4BA0. Executable memory must be reprogrammed through the Flash module (located at 0x400fd000). There are multiple methods to reprogram the code space at main(). 
 	\begin{figure}[htbp]
-		\lstset{language={[thumb]Assembler}} 
+		% \lstset{language=[x86]{Assembler}} 
 		\begin{lstlisting}
 Start
 	add R0, #0x1 	; 0xF1000001
@@ -11,7 +11,7 @@ Start
 
 Flash memory can either be erased or programmed. Memory is erased (the bits are cleared to a value of 1) in 1kb chunks. Programming can only bring a bit from high to low (1 to 0). The most simple method to insert the program at main would be to overwrite existing code currently located at main. This method is only available if the desired command has 1s located in the same position as the existing command's 1s. See Figure \ref{fig::ham}. 
 	\begin{figure}[htbp]
-		\lstset{language={[thumb]Assembler}} 
+		% \lstset{language=[x86]{Assembler}} 
 		\begin{lstlisting}
 Current instruction	0xE92D4FF0
 Desired instruction	0xF1000001

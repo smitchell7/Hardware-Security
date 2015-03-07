@@ -1,0 +1,5 @@
+What I want -
+	1. OScope Observe on trigger. 
+	2. OScope Output to computer. 
+	3. Comp Format entry. 
+	4. Comp Write to file. 
