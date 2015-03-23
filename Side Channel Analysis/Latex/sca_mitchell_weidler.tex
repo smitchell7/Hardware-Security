@@ -32,13 +32,13 @@ This paper describes a side channel analysis attack on a microprocessor.  The mi
 \end{abstract}
 
 \begin{IEEEkeywords}
-Data Encryption Standard, Differential Power Analysis, Security.
+Data Encryption Standard, Differential Power Analysis, Correlation Power Analysis, Security.
 \end{IEEEkeywords}
 
 \section{Introduction}
 	Side channel analysis is one way to attack even the most computationally complex cryptographic devices.  Through side channel analysis, information (such as secret keys) can be obtained from devices without using more traditional or brute force attacks.  In order to carry out a side channel analysis attack, the attacker must have access to the device.  The attacker then obtains power information using an oscilloscope connected to a resistor put in series with the device's power input.
 
-	In this paper a side channel analysis will be carried out on an Tiva-C  microprocessor to obtain the secret key from a Data Encryption Standard (DES) algorithm.  First, a typical DES implementation was written and loaded into the flash of the Tiva-C microprocessor.  Next, the side channel analysis was carried out.  After the power information, or traces, were obtained, a technique called differential power analysis (DPA) was used to analyze the data.  \cite{des} \cite{Messerges}
+	In this paper a side channel analysis will be carried out on an Tiva-C  microprocessor to obtain the secret key from a Data Encryption Standard (DES) algorithm.  First, a typical DES implementation was written and loaded into the flash of the Tiva-C microprocessor.  Next, the side channel analysis was carried out.  After the power information, or traces, were obtained, a technique called differential power analysis (DPA) was used to analyze the data.  Another analysis using correlation power analysis was also carried out.  \cite{des} \cite{Messerges}
 
 
 \subsection{Structure of paper}
@@ -77,7 +77,7 @@ Data Encryption Standard, Differential Power Analysis, Security.
 \section{Experimental Setup} \label{sec::expr}
 	This portion of the experiment was the most crucial to its success.  The goal is to obtain information about the power usage of the microprocessor during a critical step of the DES algorithm.  During a register write operation the power used will be different depending on the value of the word written.  It is believed that by analyzing this information, the secret key to the algorithm can be obtained.
 	
-	The oscilloscope used was a Techtronix ??? the sample rate was 1 giga-sample per second and each trace contained about 650 samples.
+	The oscilloscope used was a Techtronix DP0-2024 the sample rate was 1 giga-sample per second and each trace contained about 270 samples.  The Tiva-C used a 17 MHz clock so there 38.5 samples per clock.
 	
 	The setup used involved the Tiva-C microprocessor powered by a bench top power supply through a breadboard.  The ground connection between the microprocessor and the power supply had a 1-ohm resistor added in series.  An Oscilloscope probe was placed on the resistor so that the voltage could be measured.  Then another oscilloscope probe was placed on the GPIO pin discussed in the previous section to act as the trigger.  The voltage data would be taken twenty times for each plain text value used in the DES algorithm and then averaged in an attempt to reduce noise.  91,840 captures with 4,592 unique plain text values would be obtained.  Each trace takes about two seconds to capture so the time to obtain all traces is 183,680 seconds or about 51 hours, or 2.13 days.  The voltage data acquired would be analyzed later to determine the secret key.
 	
@@ -85,12 +85,19 @@ Data Encryption Standard, Differential Power Analysis, Security.
 	
 
 \section{Analysis of the Data}\label{sec::analysis} 
+\subsection{Differential Power Analysis}
 	In order to analyze the data, differential power analysis (DPA) was employed.  Round 16 was chosen for this because given the cipher text, the input to the Feistel  function and the output from the second xor (seen in the bottom right of figure \ref{fig:round}) can be determined.  Then the round key is guessed six bits at a time.  This greatly reduces the complexity of the key as there are only 64 possible combinations for a guess of six bits of the key.  Using knowledge of the Feistel function and the six bit key guess, the output of the Feistel function can be guessed at four bits at a time.  Remember, the s-boxes reduce the data from 48 bits to 32 bits.  This output is xored with the D value, and we already know the output of this xor.  So guessing one input and knowing the output determines the other input to the xor gate.  
 	
 	For each key guess four bits of the D word are deduced.  These 4-bit groups are divided into 3 sets where set 0 contains all guesses for which the four bits guessed are "0000," set 1 contains all guess where the four bits are "1111," and set 2 contains all other guessed values.  The average power for each sample point for sets 0 and 1 is calculated.  The two average powers are subtracted from each other.  The correct key guess will show large spikes where the calculation was actually made on the trace.  This process is repeated eight times, once for each s-box until the correct key is determined.
 	
+\subsection{Correlation Power Analysis}
+fill in here...
+
+\subsection{Actual Key Values Analysed}
+  This experiment is unique from an actual side channel analysis attack because we knew what the secret key was.  This meant that we could run the correct values through DPA and CPA as was done previously with guesses.  The results will be discussed in the next section.
 
 \section{Results}\label{res}
+  The results were not as promising as we had hoped they would be.  Simply because we knew what the secret key was we could potentially recover parts of the secret key.
 
 \section{Conclusion}\label{sec::conclusion} 
 
@@ -105,3 +112,9 @@ Data Encryption Standard, Differential Power Analysis, Security.
 
 
 \end{document}
+
+
+
+
+
+
