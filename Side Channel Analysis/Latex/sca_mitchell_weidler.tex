@@ -2,6 +2,7 @@
 \usepackage{tikz}
 \usepackage{verbatim}
 \usepackage{listings}
+\usepackage{pgfplots}
 \begin{document}
 \lstset{defaultdialect=[x86]{Assembler}}
 
@@ -59,9 +60,6 @@ Data Encryption Standard, Differential Power Analysis, Correlation Power Analysi
 	\label{fig:round}
 	\end{figure}
 
-
-
-
 \subsection{DES Modifications}
 	In order to facilitate the process by which traces are obtained, there was an addition to the traditional DES algorithm.  This slight modification in no way compromises the integrity of the algorithm or its outputs.  The change was to hold a general purpose input/output (GPIO) high during the algorithm except during a single instruction in which the output of the Feistel function is xored with the other half of the plaintext in round 16 and the result is written back to a register.  This allowed an oscilloscope to be triggered on the falling edge of the GPIO and frame this critical step which will be discussed later.  There were also two no-operations (nops) added before this register write and one after to allow the GPIO to settle and facilitate a cleaner capture.  The output of the assembly dump with comments added can be seen in figure \ref{fig:asm_snippet}.  Note that the register where the xor is written to (R0) is set to zero before the output of the xor is written there.
 	
@@ -104,9 +102,6 @@ Data Encryption Standard, Differential Power Analysis, Correlation Power Analysi
 \subsection{Actual Key Values Analysed}
   This experiment is unique from an actual side channel analysis attack because we knew what the secret key was.  This meant that we could run the correct values through DPA and CPA as was done previously with guesses.  The results will be discussed in the next section.
 
-\section{Results}\label{res}
-  The results were not as promising as we had hoped they would be.  Simply because we knew what the secret key was we could potentially recover parts of the secret key.
-
 \section{Conclusion}\label{sec::conclusion} 
 
 
@@ -116,7 +111,11 @@ Data Encryption Standard, Differential Power Analysis, Correlation Power Analysi
 \bibliography{report}
 % that's all folks
 
-
+  \begin{figure}[h]
+  \input{cpa1.tex}
+  \caption{SBox 1 using CPA.}
+	\label{fig:cpa1}
+  \end{figure}
 
 
 \end{document}
