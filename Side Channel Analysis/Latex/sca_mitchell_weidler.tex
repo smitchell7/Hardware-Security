@@ -92,16 +92,125 @@ Data Encryption Standard, Differential Power Analysis, Correlation Power Analysi
 \section{Analysis of the Data}\label{sec::analysis} 
 \subsection{Differential Power Analysis}
 	In order to analyze the data, differential power analysis (DPA) was employed.  Round 16 was chosen for this because given the cipher text, the input to the Feistel function and the output from the second xor (seen in the bottom right of figure \ref{fig:round}) can be determined.  Then the round key is guessed 6 bits at a time.  This greatly reduces the complexity of the key as there are only 64 possible combinations for a guess of 6 bits of the key.  Using knowledge of the Feistel function and the 6-bit key guess, the output of the Feistel function can be guessed at 4 bits at a time.  Remember, the s-boxes reduce the data from 48 bits to 32 bits.  This output is xored with the D value, and we already know the output of this xor.  So guessing one input and knowing the output determines the other input to the xor gate.  
-	
+
 	For each key guess 4-bits of the D word are deduced.  These 4-bit groups are divided into 3 sets where set 0 contains all guesses for which the four bits guessed are "0000," set 1 contains all guess where the 4 bits are "1111," and set 2 contains all other guessed values.  The average power for each sample point for sets 0 and 1 is calculated.  The two average powers are subtracted from each other.  The correct key guess will show large spikes where the calculation was actually made on the trace.  This is where the difference between the 2 sets of data is the greatest.  This process is repeated 8 times, once for each s-box until the correct key is determined.
-	
+
+  Figures \ref{fig:dpa1} through \ref{fig:dpa8} show the outputs of the DPA.
+  
+  \begin{figure}[h]
+  \input{dpa1.tex}
+  \caption{SBox 1 using DPA.}
+	\label{fig:dpa1}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa2.tex}
+  \caption{SBox 2 using DPA.}
+	\label{fig:dpa2}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa3.tex}
+  \caption{SBox 3 using DPA.}
+	\label{fig:dpa3}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa4.tex}
+  \caption{SBox 4 using DPA.}
+	\label{fig:dpa4}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa5.tex}
+  \caption{SBox 5 using DPA.}
+	\label{fig:dpa5}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa6.tex}
+  \caption{SBox 6 using DPA.}
+	\label{fig:dpa6}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa7.tex}
+  \caption{SBox 7 using DPA.}
+	\label{fig:dpa7}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \input{dpa8.tex}
+  \caption{SBox 8 using DPA.}
+	\label{fig:dpa8}
+  \end{figure}
+		
 \subsection{Correlation Power Analysis}
   Correlation Power Analysis (CPA) was also used on the data captured to see if more clear results could be obtained than what DPA provided.  In CPA the guessed at D word is sorted using the hamming distance of the change in the register value.  I our case the register was always set to 0 prior to the calculation, so in this case the Hamming distance is the same as the Hamming weight of the result.  Hamming weight is the number of 1s a data word contains.  The Hamming distance is the number bit changes from one word to the next so you count the number of 0s that changed to 1s and add that number to the number of 1s that changed to 0s.  The Hamming distance of anything from 0 is the Hamming weight of the data word.
   Each sample from every trace is entered into Pearson's sample correlation coefficient along with the Hamming weight of the guess.  The result should show a high correlation for the correct key guess.  The key guesses are the same 6-bit key guesses that were used in the DPA attack.
 
+  Figures \ref{fig:cpa1} through \ref{fig:cpa8} show the results of the CPA.
+  
+  \begin{figure}[h]
+  \input{cpa1.tex}
+  \caption{SBox 1 using CPA.}
+	\label{fig:cpa1}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa2.tex}
+  \caption{SBox 2 using CPA.}
+	\label{fig:cpa2}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa3.tex}
+  \caption{SBox 3 using CPA.}
+	\label{fig:cpa3}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa4.tex}
+  \caption{SBox 4 using CPA.}
+	\label{fig:cpa4}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa5.tex}
+  \caption{SBox 5 using CPA.}
+	\label{fig:cpa5}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa6.tex}
+  \caption{SBox 6 using CPA.}
+	\label{fig:cpa6}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa7.tex}
+  \caption{SBox 7 using CPA.}
+	\label{fig:cpa7}
+  \end{figure}
+
+  \begin{figure}[h]
+  \input{cpa8.tex}
+  \caption{SBox 8 using CPA.}
+	\label{fig:cpa8}
+  \end{figure}
+
+  
 \subsection{Actual Key Values Analysed}
   This experiment is unique from an actual side channel analysis attack because we knew what the secret key was.  This meant that we could run the correct values through DPA and CPA as was done previously with guesses.  The results will be discussed in the next section.
-
+  
+  See figure \ref{fig:cpa1} shows the Hamming distance model.  It should show a direct relationship but it doesn't.
+  
+  \begin{figure}[h]
+  \input{correlation.tex}
+  \caption{Measured Hamming Distance.}
+	\label{fig:cor}
+  \end{figure}
+  
 \section{Conclusion}\label{sec::conclusion} 
 
 
@@ -111,11 +220,6 @@ Data Encryption Standard, Differential Power Analysis, Correlation Power Analysi
 \bibliography{report}
 % that's all folks
 
-  \begin{figure}[h]
-  \input{cpa1.tex}
-  \caption{SBox 1 using CPA.}
-	\label{fig:cpa1}
-  \end{figure}
 
 
 \end{document}
