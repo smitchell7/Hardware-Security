@@ -1,0 +1,14 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: sca_mitchell_weidler.aux
+The style file: IEEEtran.bst
+Database file #1: report.bib
+-- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty year in des
+Name 1 in "Messerges, Thomas S. Messerges, and Dabbish, Ezzy A. Dabbish, and Sloan, Robert H." has a comma at the end for entry Messerges
+while executing---line 2419 of file IEEEtran.bst
+Name 2 in "Messerges, Thomas S. Messerges, and Dabbish, Ezzy A. Dabbish, and Sloan, Robert H." has a comma at the end for entry Messerges
+while executing---line 2419 of file IEEEtran.bst
+
+Done.
+(There were 2 error messages)
