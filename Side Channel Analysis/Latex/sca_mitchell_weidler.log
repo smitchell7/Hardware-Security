@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.20)  23 MAR 2015 10:49
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.20)  23 MAR 2015 19:36
 entering extended mode
 **sca_mitchell_weidler.tex
 
@@ -1261,104 +1261,235 @@ File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2007/02/22 1.4 (Carsten Heinz)
 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pgfplots\pgfplots.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplots.revision.tex"
+)
+Package: pgfplots 2013/03/17 v1.8 Data Visualization (1.8-3-gaf58a29)
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplots.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotscore.code.tex"
+\t@pgfplots@toka=\toks35
+\t@pgfplots@tokb=\toks36
+\t@pgfplots@tokc=\toks37
+\pgfplots@tmpa=\dimen317
+\c@pgfplots@coordindex=\count278
+\c@pgfplots@scanlineindex=\count279
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\sys\pgfplotssysgeneric
+.code.tex"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\libs\pgfplotslibrary.c
+ode.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_loader.code.tex"
+Package pgfplots: loading complementary code for your PGF version...
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_misc.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgfkeys.code.tex"
+\pgfkeys@pathtoks=\toks38
+\pgfkeys@temptoks=\toks39
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgfkeysfiltered.code.tex"
+\pgfkeys@tmptoks=\toks40
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgfmathfloat.code.tex"
+\c@pgfmathroundto@lastzeros=\count280
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgflibraryplothandlers.code.tex"
+File: pgflibraryplothandlers.code.tex 2012/09/11 v2.10 (rcs-revision 1.17)
+\pgf@plot@mark@count=\count281
+\pgfplotmarksize=\dimen318
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgflibraryfpu.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgfcorescopes.code.tex"
+File: pgfcorescopes.code.tex 2012/11/30  (rcs-revision 1.38)
+\pgfpic=\box70
+\pgf@hbox=\box71
+\pgf@layerbox@main=\box72
+\pgf@picture@serial@count=\count282
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\oldpgfcompatib\pgfplot
+soldpgfsupp_pgfcorelayers.code.tex"
+File: pgfcorelayers.code.tex 2012/11/07  (rcs-revision 1.5)
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotsutil.code
+.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplots
+liststructure.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplots
+liststructureext.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplots
+array.code.tex"
+\c@pgfplotsarray@tmp=\count283
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplots
+matrix.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\numtable\pgfplotstable
+shared.code.tex"
+\c@pgfplotstable@counta=\count284
+\t@pgfplotstable@a=\toks41
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\liststructure\pgfplots
+deque.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotsbinary.co
+de.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotsbinary.da
+ta.code.tex"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotsutil.verb
+.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\libs\pgflibrarypgfplot
+s.surfshading.code.tex"
+\c@pgfplotslibrarysurf@no=\count285
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\sys\pgflibrarypgfplots
+.surfshading.pgfsys-pdftex.def")))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotscolormap.
+code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\util\pgfplotscolor.cod
+e.tex"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotsstackedplots.c
+ode.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotsplothandlers.c
+ode.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotsmeshplothandle
+r.code.tex"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplots.scaling.code.
+tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotscoordprocessin
+g.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplotsticks.code.tex
+")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgfplots\pgfplots.paths.code.te
+x")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
+s\tikzlibrarydecorations.code.tex"
+\tikz@lib@dec@box=\box73
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
+s\tikzlibrarydecorations.pathmorphing.code.tex")
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
+s\tikzlibrarydecorations.pathreplacing.code.tex"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\libraries\decorations\pgfli
+brarydecorations.pathreplacing.code.tex"))
+\pgfplots@numplots=\count286
+\pgfplots@xmin@reg=\dimen319
+\pgfplots@xmax@reg=\dimen320
+\pgfplots@ymin@reg=\dimen321
+\pgfplots@ymax@reg=\dimen322
+\pgfplots@zmin@reg=\dimen323
+\pgfplots@zmax@reg=\dimen324
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\frontendlayer\tikz\librarie
+s\tikzlibraryplotmarks.code.tex"
+File: tikzlibraryplotmarks.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\pgf\libraries\pgflibraryplotmar
+ks.code.tex"
+File: pgflibraryplotmarks.code.tex 2010/10/15 v2.10 (rcs-revision 1.12)
+)))
 ("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
 \sca_mitchell_weidler.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 5.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 6.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 6.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    ... okay on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <5> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <7> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <8> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <9> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <10> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <11> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <11> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <12> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <17> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <20> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `T1/ptm/bx/it' in size <24> not available
-(Font)              Font shape `T1/ptm/b/it' tried instead on input line 5.
+(Font)              Font shape `T1/ptm/b/it' tried instead on input line 6.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count278
-\scratchdimen=\dimen317
-\scratchbox=\box70
-\nofMPsegments=\count279
-\nofMParguments=\count280
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count281
-\MPscratchDim=\dimen318
-\MPnumerator=\count282
-\makeMPintoPDFobject=\count283
-\everyMPtoPDFconversion=\toks36
+\scratchcounter=\count287
+\scratchdimen=\dimen325
+\scratchbox=\box74
+\nofMPsegments=\count288
+\nofMParguments=\count289
+\everyMPshowfont=\toks42
+\MPscratchCnt=\count290
+\MPscratchDim=\dimen326
+\MPnumerator=\count291
+\makeMPintoPDFobject=\count292
+\everyMPtoPDFconversion=\toks43
 )
-\AtBeginShipoutBox=\box71
-Package hyperref Info: Link coloring OFF on input line 5.
+\AtBeginShipoutBox=\box75
+Package hyperref Info: Link coloring OFF on input line 6.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count284
+\c@section@level=\count293
 )
-LaTeX Info: Redefining \ref on input line 5.
-LaTeX Info: Redefining \pageref on input line 5.
-LaTeX Info: Redefining \nameref on input line 5.
+LaTeX Info: Redefining \ref on input line 6.
+LaTeX Info: Redefining \pageref on input line 6.
+LaTeX Info: Redefining \nameref on input line 6.
 
 ("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
 \sca_mitchell_weidler.out")
 ("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
 \sca_mitchell_weidler.out")
 \@outlinefile=\write5
-LaTeX Info: Redefining \microtypecontext on input line 5.
+LaTeX Info: Redefining \microtypecontext on input line 6.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1380,9 +1511,15 @@ Dictionary: translator-basic-dictionary, Language: English
 ons.cfg"
 File: siunitx-abbreviations.cfg 2013/03/11 v2.5q siunitx: Abbreviated units
 ) ABD: EveryShipout initializing macros
-\c@lstlisting=\count285
-\c__siunitx_mathsf_int=\count286
+\c@lstlisting=\count294
 
+
+Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
+ick labels; missing features). Consider writing \pgfplotsset{compat=1.8} into y
+our preamble.
+ on input line 6.
+
+\c__siunitx_mathsf_int=\count295
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-cmr.cfg"
 File: mt-cmr.cfg 2011/04/09 v2.1 microtype config. file: Computer Modern Roman 
 (RS)
@@ -1391,30 +1528,206 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `cmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-\c__siunitx_mathtt_int=\count287
+\c__siunitx_mathtt_int=\count296
 Package microtype Info: Loading generic settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-<./round.png, id=50, 455.45157pt x 445.665pt>
+<./round.png, id=62, 455.45157pt x 445.665pt>
 File: ./round.png Graphic file (type png)
  <use ./round.png>
-Package pdftex.def Info: ./round.png used on input line 57.
+Package pdftex.def Info: ./round.png used on input line 58.
 (pdftex.def)             Requested size: 176.39923pt x 172.6118pt.
  [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
  <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex
 /round.png>]
-<./asm_snippet.png, id=66, 392.96812pt x 141.52875pt>
+<./asm_snippet.png, id=78, 640.64343pt x 247.67531pt>
 File: ./asm_snippet.png Graphic file (type png)
  <use ./asm_snippet.png>
-Package pdftex.def Info: ./asm_snippet.png used on input line 70.
-(pdftex.def)             Requested size: 176.39923pt x 63.53185pt.
+Package pdftex.def Info: ./asm_snippet.png used on input line 68.
+(pdftex.def)             Requested size: 176.39923pt x 68.19594pt.
 
+<./bench.png, id=80, 2441.12pt x 4336.2pt>
+File: ./bench.png Graphic file (type png)
+ <use ./bench.png>
+Package pdftex.def Info: ./bench.png used on input line 84.
+(pdftex.def)             Requested size: 176.39923pt x 313.29128pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2 <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Lat
+ex/asm_snippet.png> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Cha
+nnel Analysis/Latex/bench.png>]
 ("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
-\sca_mitchell_weidler.bbl")
+\resolution.tex")
+("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
+\correlation.tex")
+("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
+\sca_mitchell_weidler.bbl" [3])
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 139.
+
+<./dpa1.png, id=111, 578.16pt x 433.62pt>
+File: ./dpa1.png Graphic file (type png)
+ <use ./dpa1.png>
+Package pdftex.def Info: ./dpa1.png used on input line 140.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 145.
+
+<./dpa2.png, id=112, 578.16pt x 433.62pt>
+File: ./dpa2.png Graphic file (type png)
+ <use ./dpa2.png>
+Package pdftex.def Info: ./dpa2.png used on input line 146.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 151.
+
+<./dpa3.png, id=113, 578.16pt x 433.62pt>
+File: ./dpa3.png Graphic file (type png)
+ <use ./dpa3.png>
+Package pdftex.def Info: ./dpa3.png used on input line 152.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 157.
+
+<./dpa4.png, id=114, 578.16pt x 433.62pt>
+File: ./dpa4.png Graphic file (type png)
+ <use ./dpa4.png>
+Package pdftex.def Info: ./dpa4.png used on input line 158.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 163.
+
+<./dpa5.png, id=115, 578.16pt x 433.62pt>
+File: ./dpa5.png Graphic file (type png)
+ <use ./dpa5.png>
+Package pdftex.def Info: ./dpa5.png used on input line 164.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 169.
+
+<./dpa6.png, id=116, 578.16pt x 433.62pt>
+File: ./dpa6.png Graphic file (type png)
+ <use ./dpa6.png>
+Package pdftex.def Info: ./dpa6.png used on input line 170.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 175.
+
+<./dpa7.png, id=117, 578.16pt x 433.62pt>
+File: ./dpa7.png Graphic file (type png)
+ <use ./dpa7.png>
+Package pdftex.def Info: ./dpa7.png used on input line 176.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 181.
+
+<./dpa8.png, id=118, 578.16pt x 433.62pt>
+File: ./dpa8.png Graphic file (type png)
+ <use ./dpa8.png>
+Package pdftex.def Info: ./dpa8.png used on input line 182.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 187.
+
+<./cpa1.png, id=119, 578.16pt x 433.62pt>
+File: ./cpa1.png Graphic file (type png)
+ <use ./cpa1.png>
+Package pdftex.def Info: ./cpa1.png used on input line 188.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 193.
+
+<./cpa2.png, id=120, 578.16pt x 433.62pt>
+File: ./cpa2.png Graphic file (type png)
+ <use ./cpa2.png>
+Package pdftex.def Info: ./cpa2.png used on input line 194.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 199.
+
+<./cpa3.png, id=121, 578.16pt x 433.62pt>
+File: ./cpa3.png Graphic file (type png)
+ <use ./cpa3.png>
+Package pdftex.def Info: ./cpa3.png used on input line 200.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 205.
+
+<./cpa4.png, id=122, 578.16pt x 433.62pt>
+File: ./cpa4.png Graphic file (type png)
+ <use ./cpa4.png>
+Package pdftex.def Info: ./cpa4.png used on input line 206.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 211.
+
+<./cpa5.png, id=123, 578.16pt x 433.62pt>
+File: ./cpa5.png Graphic file (type png)
+ <use ./cpa5.png>
+Package pdftex.def Info: ./cpa5.png used on input line 212.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 217.
+
+<./cpa6.png, id=124, 578.16pt x 433.62pt>
+File: ./cpa6.png Graphic file (type png)
+ <use ./cpa6.png>
+Package pdftex.def Info: ./cpa6.png used on input line 218.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 223.
+
+<./cpa7.png, id=125, 578.16pt x 433.62pt>
+File: ./cpa7.png Graphic file (type png)
+ <use ./cpa7.png>
+Package pdftex.def Info: ./cpa7.png used on input line 224.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 229.
+
+<./cpa8.png, id=126, 578.16pt x 433.62pt>
+File: ./cpa8.png Graphic file (type png)
+ <use ./cpa8.png>
+Package pdftex.def Info: ./cpa8.png used on input line 230.
+(pdftex.def)             Requested size: 226.79846pt x 170.09697pt.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1426,35 +1739,59 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 107.
-[2 <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Lat
-ex/asm_snippet.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 107.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 235.
+[4 <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Lat
+ex/dpa1.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side
+ Channel Analysis/Latex/dpa2.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/Cla
+sses/ECE5930/git/Side Channel Analysis/Latex/dpa3.png (PNG copy)> <C:/Users/nwe
+idler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex/dpa4.png (PNG
+ copy)> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysi
+s/Latex/dpa5.png (PNG copy)>] [5 <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930
+/git/Side Channel Analysis/Latex/dpa6.png (PNG copy)> <C:/Users/nweidler/Deskto
+p/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex/dpa7.png (PNG copy)> <C:/
+Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex/dpa8
+.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channe
+l Analysis/Latex/cpa1.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/Classes/EC
+E5930/git/Side Channel Analysis/Latex/cpa2.png (PNG copy)> <C:/Users/nweidler/D
+esktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex/cpa3.png (PNG copy)>
+] [6 <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/L
+atex/cpa4.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Si
+de Channel Analysis/Latex/cpa5.png (PNG copy)> <C:/Users/nweidler/Desktop/PhD/C
+lasses/ECE5930/git/Side Channel Analysis/Latex/cpa6.png (PNG copy)> <C:/Users/n
+weidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analysis/Latex/cpa7.png (P
+NG copy)> <C:/Users/nweidler/Desktop/PhD/Classes/ECE5930/git/Side Channel Analy
+sis/Latex/cpa8.png (PNG copy)>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 235.
 
 ("C:\Users\nweidler\Desktop\PhD\Classes\ECE5930\git\Side Channel Analysis\Latex
 \sca_mitchell_weidler.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 107.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 107.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 235.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 235.
 Package rerunfilecheck Info: File `sca_mitchell_weidler.out' has not changed.
-(rerunfilecheck)             Checksum: 600EBA16221B987B158E5D99F20BA0C0;483.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 107.
+(rerunfilecheck)             Checksum: 6C9F80D40BC768FBCE208D0F4CBA4097;717.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 235.
  ) 
 Here is how much of TeX's memory you used:
- 32601 strings out of 493921
- 677272 string characters out of 3144867
- 798231 words of memory out of 3000000
- 35247 multiletter control sequences out of 15000+200000
- 113057 words of font info for 199 fonts, out of 3000000 for 9000
+ 40027 strings out of 493921
+ 957257 string characters out of 3144867
+ 1363232 words of memory out of 3000000
+ 42483 multiletter control sequences out of 15000+200000
+ 113317 words of font info for 203 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 65i,9n,57p,920b,735s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 65i,11n,74p,6922b,1750s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files (x86)/MiKTeX 
-2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/t
-ype1/urw/times/utmri8a.pfb>
-Output written on sca_mitchell_weidler.pdf (2 pages, 95241 bytes).
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (
+x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x8
+6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
+1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times
+/utmri8a.pfb>
+Output written on sca_mitchell_weidler.pdf (6 pages, 4860343 bytes).
 PDF statistics:
- 94 PDF objects out of 1000 (max. 8388607)
- 16 named destinations out of 1000 (max. 500000)
- 27231 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 500000)
+ 27340 words of extra memory for PDF output out of 29859 (max. 10000000)
 
