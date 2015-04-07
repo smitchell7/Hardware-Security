@@ -17,8 +17,11 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \bibstyle{IEEEtran}
+\citation{VanHerrewege2015}
+\citation{VanHerrewege2015}
 \citation{Kumar2008}
-\citation{des}
+\citation{Maes2008,Leest2010}
+\citation{Simons2012}
 \select@language{english}
 \@writefile{toc}{\select@language{english}}
 \@writefile{lof}{\select@language{english}}
@@ -26,22 +29,26 @@
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {I-A}}Related works}{1}{subsection.1.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {I-B}}Structure of paper}{1}{subsection.1.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {II}DES Implementation}{1}{section.2}}
-\newlabel{sec::des_impl}{{II}{1}{DES Implementation}{section.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces One round of DES.}}{1}{figure.1}}
-\newlabel{fig:round}{{1}{1}{One round of DES}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}DES Modifications}{1}{subsection.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The assembly showing the GPIO writes surrounding the xor and register write under attack.}}{1}{figure.2}}
-\newlabel{fig:asm_snippet}{{2}{1}{The assembly showing the GPIO writes surrounding the xor and register write under attack}{figure.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Experimental Setup}{1}{section.3}}
-\newlabel{sec::expr}{{III}{1}{Experimental Setup}{section.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Design}{1}{section.2}}
+\newlabel{sec::des_impl}{{II}{1}{Design}{section.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Butterfly PUF: Cross-coupled latches.}}{1}{figure.1}}
+\newlabel{fig:bfly}{{1}{1}{Butterfly PUF: Cross-coupled latches}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Butterfly in authentication}{1}{subsection.2.1}}
+\citation{*}
 \bibdata{bibpuf}
 \bibcite{Kumar2008}{1}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Analysis of the Data}{2}{section.4}}
-\newlabel{sec::analysis}{{IV}{2}{Analysis of the Data}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Differential Power Analysis}{2}{subsection.4.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Correlation Power Analysis}{2}{subsection.4.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-C}}Actual Key Values Analysed}{2}{subsection.4.3}}
+\bibcite{VanHerrewege2015}{2}
+\bibcite{Leest2010}{3}
+\bibcite{Maes2008}{4}
+\bibcite{Platonov2013}{5}
+\bibcite{Simons2012}{6}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Modified-butterfly PUF: Cross-coupled latches are modifiable.}}{2}{figure.2}}
+\newlabel{fig:bfly2}{{2}{2}{Modified-butterfly PUF: Cross-coupled latches are modifiable}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Butterfly in TRNG}{2}{subsection.2.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Experimental Setup}{2}{section.3}}
+\newlabel{sec::expr}{{III}{2}{Experimental Setup}{section.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Data Analysis}{2}{section.4}}
+\newlabel{sec::analysis}{{IV}{2}{Data Analysis}{section.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Results}{2}{section.5}}
 \newlabel{res}{{V}{2}{Results}{section.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{2}{section.6}}

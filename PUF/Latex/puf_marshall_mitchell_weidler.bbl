@@ -27,4 +27,31 @@ S.~Kumar, J.~Guajardo, R.~Maes, G.-J. Schrijen, and P.~Tuyls, ``Extended
   \emph{Hardware-Oriented Security and Trust, 2008. HOST 2008. IEEE
   International Workshop on}, June 2008, pp. 67--70.
 
+\bibitem{VanHerrewege2015}
+A.~Van~Herrewege, ``Lightweight puf-based key and random number generation,''
+  2015.
+
+\bibitem{Leest2010}
+V.~van~der Leest, G.-J. Schrijen, H.~Handschuh, and P.~Tuyls, ``Hardware
+  intrinsic security from d flip-flops,'' in \emph{Proceedings of the fifth ACM
+  workshop on Scalable trusted computing}.\hskip 1em plus 0.5em minus
+  0.4em\relax ACM, 2010, pp. 53--62.
+
+\bibitem{Maes2008}
+R.~Maes, P.~Tuyls, and I.~Verbauwhede, ``Intrinsic pufs from flip-flops on
+  reconfigurable devices,'' in \emph{3rd Benelux workshop on information and
+  system security (WISSec 2008)}, vol.~17, 2008.
+
+\bibitem{Platonov2013}
+M.~Platonov, J.~Hlav{\'a}c, and R.~L{\'o}rencz, ``Using power-up sram state of
+  atmel atmega1284p microcontrollers as physical unclonable function for key
+  generation and chip identification,'' \emph{Information Security Journal: A
+  Global Perspective}, vol.~22, no. 5-6, pp. 244--250, 2013.
+
+\bibitem{Simons2012}
+P.~Simons, E.~van~der Sluis, and V.~van~der Leest, ``Buskeeper pufs, a
+  promising alternative to d flip-flop pufs,'' in \emph{Hardware-Oriented
+  Security and Trust (HOST), 2012 IEEE International Symposium on}, June 2012,
+  pp. 7--12.
+
 \end{thebibliography}
