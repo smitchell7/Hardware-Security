@@ -27,28 +27,61 @@ e-mail: geekbott@gmail.com, samuel.alan.mitchell@gmail.com, NWeidler@gmail.com}
 %\boldmath
 % Summarize project and results (executive summary).
 %
-This paper describes the design and implementation of a physically uncloneable function (PUF). 
+This paper describes the design and implementation of a physically unclonable function (PUF). 
 
  
 \end{abstract}
 
 \begin{IEEEkeywords}
-Physically Uncloneable Function, Device Authentication.
+Physically unclonable Function, Device Authentication.
 \end{IEEEkeywords}
 
 \section{Introduction}
-	A physically uncloneable function (PUF) is one method of testing user authentication. The server sends a challenge to a device, and the device responds using the output to the PUF; this is called a challenge response pair. If the PUF is truly uncloneable, this authentication method is effectively secure. 
+	A physically unclonable function (PUF) is one method of testing user authentication. The server sends a challenge to a device, and the device responds using the output to the PUF; this is called a challenge response pair. If the PUF is truly unclonable, this authentication method is effectively secure. 
 
 	The analysis of PUFs in authentication relies on 2 characteristics of the PUF: the variation between devices, $\mu_{intra}$, and the reliability of the device to reproduce the same bitstream given a challenge, $\mu_{inter}$. 
 
+
 \subsection{Related works}
-	\cite{Kumar2008}
+
+	There are various types of PUFs that can be implemented on an FPGA \cite{VanHerrewege2015}. 
+
+	\cite{VanHerrewege2015} 
+	Types of memory-based PUFs.
+		\begin{itemize}
+			\item SRAM 
+			\item Latch (Butterfly) 	\cite{Kumar2008}
+			\item Flip-flop \cite{Maes2008,Leest2010}
+			\item Buskeeper \cite{Simons2012}
+		\end{itemize}
+
+	There are 3 main purposes of PUFs, 
 \subsection{Structure of paper}
 	The organization is as follows: in Section \ref{sec::des_impl}, the development of the PUF is presented.  In Section \ref{sec::expr} the experimental test setup for the capturing of the challenge response pairs is described. Section \ref{sec::analysis} contains the analysis of the data. Conclusions are detailed in Section \ref{sec::conclusion}. 
 
 
 \section{Design} \label{sec::des_impl}
-	As a part of this work an implementation of DES was written for the Tiva-C microprocessor.  "The DES Algorith Illustrated" was a valuable resource during this process.  All of the explicit details of DES will be left to other work, however, a brief overview will be presented in order for the reader to grasp the complexity of the algorithm. \cite{des}
+	The butterfly PUF consists of wiring 2 NAND gates together in positive feedback mode, as shown in Figure \ref{fig:bfly}. Upon excitation, the gates are put into a race condition until the voltage level converges (less than 1 second). The butterfly should result in a consistent output for each device it's implemented on, while the output of the devices have low correlation. When implemented on a Spartan IV, the majority of the butterfly PUFs gave consistent but unique output, but the logic of 12\% never converges to one voltage. 
+		\begin{figure}[tbph]
+			\centering
+			\includegraphics[width=0.3\textwidth]{bfly.png}
+			\caption{Butterfly PUF: Cross-coupled latches.}\label{fig:bfly}
+		\end{figure}
+
+	This paper utilizes a modified butterfly PUF that accepts an input. The excite signal is used as a switching signal through negation, as shown in Figure \ref{fig:bfly2}. This allows the PUF to accept an input, which results in 2 potential random outputs. 
+		\begin{figure}[tbph]
+			\centering
+			\includegraphics[width=0.3\textwidth]{bfly2.png}
+			\caption{Modified butterfly PUF: Cross-coupled latches are modifiable.}\label{fig:bfly2}
+		\end{figure}
+	
+
+	\subsection{Butterfly in authentication}
+		An authentication device accepts a challenge sequence and sends back a device-specific response.  
+				
+
+	\subsection{Butterfly in TRNG}
+	As a part of this work an implementation of DES was written for the Tiva-C microprocessor.  "The DES Algorith Illustrated" was a valuable resource during this process.  All of the explicit details of DES will be left to other work, however, a brief overview will be presented in order for the reader to grasp the complexity of the algorithm. 
 
 	DES is a 16 round encryption algorithm.  It works on 64-bit blocks of plaintext and outputs encrypted data of the same size.  The output of the algorithm is the cipher text.  The first step in DES is to divide the plaintext block in half, the left 32-bits and the right 32-bits.  The heart of DES is the 56-bit master key which is used to create 16 distinct 48-bit round keys, one for each round of the algorithm.  (The intent of this attack is to recover the key from the 16th round, from which all other keys can be easily obtained.)  To create each round key the 56-bit key is permuted and divided into two halves.  Then for each round each of those halves is shifted, recombined and permuted yielding the 48-bit round keys.
 
@@ -107,6 +140,7 @@ fill in here...
 % Summarize results and lessons learned.
 	% This paper considers the efficient computation of passwords. Multiple methods to increase hashing throughput are presented. It is shown that hardware implementation of a password cracker provides more throughput per unit dollar than a software implementation. Future research will address the efficacy of different architectures in password computation. 
 	As can be seen, side channel analysis can be an effective means to recover data from embedded systems.  DPA has previously been shown to work.  It seems the determining factor of whether or not your side channel analysis will be a success is the acquisition of the.
+\nocite{*}
 \bibliography{bibpuf}
 % that's all folks
 
