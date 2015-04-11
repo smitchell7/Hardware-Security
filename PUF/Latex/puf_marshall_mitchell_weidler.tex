@@ -45,18 +45,13 @@ Physically unclonable Function, Device Authentication.
 
 \subsection{Related works}
 
-	There are various types of PUFs that can be implemented on an FPGA \cite{VanHerrewege2015}. 
+	Some of the main usages of PUFs are to provide reliable device identification, device authentication, key storage, and true random number generation \cite{tehranipoor2011introduction}. 
 
-	\cite{VanHerrewege2015} 
-	Types of memory-based PUFs.
-		\begin{itemize}
-			\item SRAM 
-			\item Latch (Butterfly) 	\cite{Kumar2008}
-			\item Flip-flop \cite{Maes2008,Leest2010}
-			\item Buskeeper \cite{Simons2012}
-		\end{itemize}
+	Not all PUFs can be implemented on every type of device (FPGA, ASIC, microcontroller). There are various types of PUFs that can be implemented on an FPGA \cite{VanHerrewege2015}, some of which are SRAM, Butterfly \cite{Kumar2008}, flip-flop \cite{Maes2008,Leest2010}, Buskeeper \cite{Simons2012}. 
 
-	There are 3 main purposes of PUFs, 
+	The Butterfly PUF was analyzed in \cite{morozov2010analysis} with results inconsistent with \cite{Kumar2008}. The authors determined that this was due to the difficulty to define the routing distance between gates. 
+
+
 \subsection{Structure of paper}
 	The organization is as follows: in Section \ref{sec::des_impl}, the development of the PUF is presented.  In Section \ref{sec::expr} the experimental test setup for the capturing of the challenge response pairs is described. Section \ref{sec::analysis} contains the analysis of the data. Conclusions are detailed in Section \ref{sec::conclusion}. 
 
@@ -66,14 +61,14 @@ Physically unclonable Function, Device Authentication.
 		\begin{figure}[tbph]
 			\centering
 			\includegraphics[width=0.3\textwidth]{bfly.png}
-			\caption{Butterfly PUF: Cross-coupled latches.}\label{fig:bfly}
+			\caption{Butterfly PUF: This works because of cross-coupled latches.}\label{fig:bfly}
 		\end{figure}
 
 	This paper utilizes a modified butterfly PUF that accepts an input. The excite signal is used as a switching signal through negation, as shown in Figure \ref{fig:bfly2}. This allows the PUF to accept an input, which results in 2 potential random outputs. Testing showed that some PUFs would consistently toggle, some would consistently remain 1 value, and some weren't consistent, which is consistent with the 12\% of the standard butterfly PUF that wouldn't converge. This PUF is very compact, requiring only 0.03\% of the FPGA space. 
 		\begin{figure}[tbph]
 			\centering
 			\includegraphics[width=0.3\textwidth]{bfly2.png}
-			\caption{Modified-butterfly PUF: Cross-coupled latches are modifiable.}\label{fig:bfly2}
+			\caption{Modified-butterfly PUF: The cross-coupled latches are altered by the input.}\label{fig:bfly2}
 		\end{figure}
 		
 
@@ -102,7 +97,7 @@ Physically unclonable Function, Device Authentication.
 \section{Conclusion}\label{sec::conclusion} 
 
 
-\nocite{*}
+% \nocite{*}
 \bibliography{bibpuf}
 % that's all folks
 
