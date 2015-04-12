@@ -79,12 +79,22 @@ Physically unclonable Function, Device Authentication.
 
 		This design is valid because each bit of the key can alter the response up to 50\%, which means that the corresponding response bit can only be predicted with 50\% accuracy. Each row has a unique string of PUFs, so each response bit will be random to the other bits. 
 
-		A simple verification was performed on this system by implementing 1 row of our modified-butterfly authenticator PUF. Unique keys successfully produced unique responses, but the responses were consistent only 83\% of the time. Without error correction coding, the system will never correctly produce the correct response (0.0064\% likelihood). The modified-butterfly PUF was discarded for authentication applications. 
+		A simple verification was performed on this system by implementing 1 row of our modified-butterfly authenticator PUF. Two of the 64 stages are represented in Figure \ref{fig:bfly3}. However, unique keys did not successfully produce unique responses.  It seemed that the output was almost completely random data.  There was nothing deterministic about the result of this string of 64 butterfly pufs.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.5\textwidth]{bflyString.png}
+			\caption{The first two stages of a 64 stage puf.}\label{fig:bfly3}
+		\end{figure}	
+			
+		It is believed that without manually length matching the feedback nets in FPGA editor a single indeterministic butterfly in the chain can cause the entire chain to be unstable (depending on the challenge.)  Through our testing it seems that 1 in 6 butterfly pufs would be random.  That means in a string of 64 there are 10 or 11 that are random.  The modified-butterfly PUF was discarded for authentication applications, but a new idea emerged.
 
 	\subsection{Butterfly in TRNG}
-		TRNG requires random processes to extract numbers from. Both versions of the butterfly PUF produce a race condition before converging to one value. This race condition will quickly settle unless perturbed. 
-
-		Two modified-butterfly PUFs are wired together to induce race conditions in each PUF. This is done by connecting the output of a modified-butterfly PUF to the input of another modified-butterfly PUF, and vice versa. The output of one of the PUFs is sampled periodically (at the communication rate) to produce a stream of random bits. 
+		TRNG requires random processes to extract numbers from. The butterfly puf setup for this is the same as seen in Figure \ref{fig:bfly3}.  It was decided to determine if the string of 64 butterfly pufs produced truly random data.  In order to accommodate this there were two values used to excite the 64 butterfly pufs.  The first was the pattern "101010101010101010101010..." repeated out to 64 bits.  The second was the pattern "010101010101010101010101..." repeated out to 64 bits.  Each pattern is held for 5000 clock cycles as the butterfly is allowed to settle. The frequency of the FPGA clock is 50MHz so each value is held for 100 micro seconds.
+		
+		The output of the last butterfly in the string is read and if is was a '1' a 0x31 would be sent over the UART transmitter.  If it was a '0' a 0x30 would be sent over the transmitter so that the data would be simple to digest.  The transmitter was tied high so that it would always transmit.  This way the last puf would be ringing as it settles and we would see random data.  Once the pufs settled we would see the output settle to a value and then the pufs would be excited again with the opposite 64 bit pattern.  This was accomplished by toggling a slide switch on the FPGA board.
+		
+		With a baud rate of 9600 with 8 data bits, 1 stop and 1 parity bit we get 960 bits per second output from the TRNG.  However these come in bursts of about 1000 before the butterfly settles and needs to be excited again by toggling the slide switch.  This means that the overall rate of the TRNG depends on how efficiently you can re-excite the pufs once they settle as the constant values are discarded in between the random numbers.
 		
 \section{Experimental Setup} \label{sec::expr}
 	
@@ -95,6 +105,9 @@ Physically unclonable Function, Device Authentication.
 \section{Results}\label{res}
 
 \section{Conclusion}\label{sec::conclusion} 
+		The theory behind using a butterfly puf for authentication is a sound theory.  However the implementation would require more time than we had for this project.  We still believe that if the lengths of the feedback nets were matched inside the FPGA for each puf this would make a very reliable means of authentication.  This will be left to future work.
+		
+		The fact that butterfly pufs are unstable for a time make them very good building blocks for TRNGs.  Our results showed that our puf solution to the TRNG is very promising.  There could be ways to improve the design but we are pleased with the results attained above.  An improvement may be to profile the puf and excite it again before it settles to a steady value.  This would greatly improve the rate of random number generation as you would not need to discard the steady values seen between the random values.  Also simply increasing the baud rate would increase the throughput and would be worthwhile if the other optimization was made as well.
 
 
 % \nocite{*}

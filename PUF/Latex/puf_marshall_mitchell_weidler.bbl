@@ -21,15 +21,25 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{tehranipoor2011introduction}
+M.~Tehranipoor and C.~Wang, \emph{Introduction to hardware security and
+  trust}.\hskip 1em plus 0.5em minus 0.4em\relax Springer Science \& Business
+  Media, 2011.
+
+\bibitem{VanHerrewege2015}
+A.~Van~Herrewege, ``Lightweight puf-based key and random number generation,''
+  2015.
+
 \bibitem{Kumar2008}
 S.~Kumar, J.~Guajardo, R.~Maes, G.-J. Schrijen, and P.~Tuyls, ``Extended
   abstract: The butterfly puf protecting ip on every fpga,'' in
   \emph{Hardware-Oriented Security and Trust, 2008. HOST 2008. IEEE
   International Workshop on}, June 2008, pp. 67--70.
 
-\bibitem{VanHerrewege2015}
-A.~Van~Herrewege, ``Lightweight puf-based key and random number generation,''
-  2015.
+\bibitem{Maes2008}
+R.~Maes, P.~Tuyls, and I.~Verbauwhede, ``Intrinsic pufs from flip-flops on
+  reconfigurable devices,'' in \emph{3rd Benelux workshop on information and
+  system security (WISSec 2008)}, vol.~17, 2008.
 
 \bibitem{Leest2010}
 V.~van~der Leest, G.-J. Schrijen, H.~Handschuh, and P.~Tuyls, ``Hardware
@@ -37,21 +47,16 @@ V.~van~der Leest, G.-J. Schrijen, H.~Handschuh, and P.~Tuyls, ``Hardware
   workshop on Scalable trusted computing}.\hskip 1em plus 0.5em minus
   0.4em\relax ACM, 2010, pp. 53--62.
 
-\bibitem{Maes2008}
-R.~Maes, P.~Tuyls, and I.~Verbauwhede, ``Intrinsic pufs from flip-flops on
-  reconfigurable devices,'' in \emph{3rd Benelux workshop on information and
-  system security (WISSec 2008)}, vol.~17, 2008.
-
-\bibitem{Platonov2013}
-M.~Platonov, J.~Hlav{\'a}c, and R.~L{\'o}rencz, ``Using power-up sram state of
-  atmel atmega1284p microcontrollers as physical unclonable function for key
-  generation and chip identification,'' \emph{Information Security Journal: A
-  Global Perspective}, vol.~22, no. 5-6, pp. 244--250, 2013.
-
 \bibitem{Simons2012}
 P.~Simons, E.~van~der Sluis, and V.~van~der Leest, ``Buskeeper pufs, a
   promising alternative to d flip-flop pufs,'' in \emph{Hardware-Oriented
   Security and Trust (HOST), 2012 IEEE International Symposium on}, June 2012,
   pp. 7--12.
+
+\bibitem{morozov2010analysis}
+S.~Morozov, A.~Maiti, and P.~Schaumont, ``An analysis of delay based puf
+  implementations on fpga,'' in \emph{Reconfigurable Computing: Architectures,
+  Tools and Applications}.\hskip 1em plus 0.5em minus 0.4em\relax Springer,
+  2010, pp. 382--387.
 
 \end{thebibliography}
