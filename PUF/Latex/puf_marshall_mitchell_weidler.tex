@@ -53,7 +53,9 @@ Physically unclonable Function, Device Authentication.
 
 
 \subsection{Structure of paper}
-	The organization is as follows: in Section \ref{sec::des_impl}, the development of the PUF is presented.  In Section \ref{sec::expr} the experimental test setup for the capturing of the challenge response pairs is described. Section \ref{sec::analysis} contains the analysis of the data. Conclusions are detailed in Section \ref{sec::conclusion}. 
+	The organization is as follows: in Section \ref{sec::des_impl}, the development of the PUF is presented.  
+	% In Section \ref{sec::expr} the experimental test setup for the capturing of the challenge response pairs is described. 
+	Section \ref{sec::analysis} contains the analysis of the data. Conclusions are detailed in Section \ref{sec::conclusion}. 
 
 
 \section{Design} \label{sec::des_impl}
@@ -96,13 +98,15 @@ Physically unclonable Function, Device Authentication.
 		
 		With a baud rate of 9600 with 8 data bits, 1 stop and 1 parity bit we get 960 bits per second output from the TRNG.  However these come in bursts of about 1000 before the butterfly settles and needs to be excited again by toggling the slide switch.  This means that the overall rate of the TRNG depends on how efficiently you can re-excite the pufs once they settle as the constant values are discarded in between the random numbers.
 		
-\section{Experimental Setup} \label{sec::expr}
+% \section{Experimental Setup} \label{sec::expr}
 	
 	
 
 \section{Data Analysis}\label{sec::analysis} 
+	To verify the integrity of a TRNG we needed to verify that the steams produced by the PUF were indeed random. The two tests historically used to verify these streams were the Diehard tests and the NIST (STS) tests. Each of these test packages use multiple tests to verify the randomness of a stream. Presently, these tests are both part of the Dieharder test package, which was created to be the Swiss Army Knife of random number testing. These packages use statistical models to try and predict future numbers in the sequence.
 
-\section{Results}\label{res}
+	To test our PUF we first captured a bit stream from the PUF and saved this stream to a file. Next we ran this file through the Dieharder package. Throughout our testing phase we never had a stream that failed a single test within the the Dieharder package. There were a few false positives that the test identified with a weak correlation to a specific test. As the length of our streams increased these false positive results became much less common.This positive feedback from the Dieharder tests allowed us to feel particularly good about the viability of the Butterfly PUF as a TRNG.
+% \section{Results}\label{res}
 
 \section{Conclusion}\label{sec::conclusion} 
 		The theory behind using a butterfly puf for authentication is a sound theory.  However the implementation would require more time than we had for this project.  We still believe that if the lengths of the feedback nets were matched inside the FPGA for each puf this would make a very reliable means of authentication.  This will be left to future work.
