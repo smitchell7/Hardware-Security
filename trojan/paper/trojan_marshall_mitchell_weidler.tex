@@ -67,10 +67,12 @@ Hardware trojan, security, encryption.
 	  \label{tab:class}%
 	\end{table}%
 
-	\subsection{Physical characteristics}
+	\subsection{Physical characteristics and power}
 	The DES implementation obtained for this project was implemented in VHDL \cite{McQueen2003}, with the FPGA driver written by Nathanael Weidler. A size comparison of the original application to the compromised application is found in Table \ref{tab:size}. Our implementation results in a 15\% size increase, but the trigger itself has only a 2\% footprint.
 
-	The small trigger makes it unlikely that the trojan would be detected by a simple power analysis. \cite{jha2008randomization} shows that it is possible to detect, but no tests have been done to compare power analyses. Because the trojan was inserted by a designer, there would be no valid power analysis to compare the clean and infected devices. 
+	The small trigger makes it unlikely that the trojan would be detected by a simple power analysis. \cite{jha2008randomization} shows that it is possible to detect. Because the trojan was inserted by a designer, there would be no valid power analysis to compare the clean and infected devices. 
+	
+	For the sake of this paper the trojan and trigger were removed and then added back into the design incrementally and the Xilinx Xpower Analyzer was used to view the power usage.  For the baseline design, the maximum 170.78 mW.  The trigger added 0.08 mW of power brining the total up to 170.86 mW.  This is only a 0.047\% increase of power caused by the trigger.  Once the trigger has activated the trojan, the maximum power is 172.38 mW.  This is an increase of 1.6 mW over the baseline power or a 0.94\% increase.  This was believed to be very good, especially considering the fact that the trigger increased the power by such a small fraction of a percent that it would likely be lost in the noise unless very advanced techniques were used to detect it.
 
 	\input{size}
 
